@@ -1,22 +1,43 @@
-import ShapeTree from "./ShapeTree";
-import Center from "./Center";
-import ShapeInfo from "./ShapeInfo";
+import ShapeTree from "./TreeComponent/ShapeTree";
+import Center from "./CenterComponent/Center";
+import ShapeInfo from "./ShapeInfoComponent/ShapeInfo";
+import "../Utils/main";
+import { useEffect, useRef } from "react";
+import { threeSetup } from "../Utils/threeSetup";
 
-function App() {
+const App = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      threeSetup(canvasRef.current);
+    } else {
+      console.log("Canvas isn't rendered yet");
+    }
+
+    
+  }, []);
+
+  
+
   return (
     <>
-    <div className="container-fluid h-full relative m-0 p-0">
-
-      {/* <div className="flex gap-3 "> */}
-        <div className="left bg-[#f4f4f4] w-[350px] px-5 py-4 rounded-lg m-1 absolute top-0 left-0 pb-3"><ShapeTree /></div>
-        <div className="center text-center w-full p-2 rounded m-1 absolute"><Center /></div>
-        <div className="right bg-[#f4f4f4] w-[400px] p-5 rounded m-1 absolute top-0 right-0"><ShapeInfo /></div>
-      {/* </div> */}
-      <canvas className=" bg-blue-200 w-full h-full flex webgl"></canvas>
-
-    </div>
+      <div className="container-fluid h-full relative m-0 p-0">
+        <div className="flex gap-3 ">
+        <div className="left classic-background w-[330px] px-5 py-4 rounded-lg m-1 border border-1 border-[#0000000D] h-full absolute top-0 left-0 pb-3">
+          <ShapeTree />
+        </div>
+        <div className="center text-center w-full p-2 rounded m-1 absolute">
+          <Center />
+        </div>
+        <div className="right classic-background w-[400px] p-5 rounded m-1 absolute top-0 right-0">
+          <ShapeInfo />
+        </div>
+        </div>
+        <canvas className="webgl" ref={canvasRef}></canvas>
+      </div>
     </>
   );
-}
+};
 
 export default App;

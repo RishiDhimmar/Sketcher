@@ -1,13 +1,11 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react";
 import { IoEllipseOutline, IoSearch } from "react-icons/io5";
 import { IoMdArrowDropright } from "react-icons/io";
 import { IoTrashOutline } from "react-icons/io5";
 import { LuEye } from "react-icons/lu";
 import { TbLine } from "react-icons/tb";
-
-import "../index.css";
-import TreeEntry from "./TreeEntry";
+import "../../index.css";
+import TreeEntry from "../HelperComponents/TreeEntry";
 import { FaRegCircle } from "react-icons/fa";
 import { MdOutlinePolyline } from "react-icons/md";
 
@@ -21,7 +19,7 @@ function ShapeTree() {
   return (
     <div className="container-fluid ">
       <div className="label-wrap flex justify-between">
-        <div className="label opacity-70 text-md font-poppins ">
+        <div className="label text-md normal-roboto font-roboto">
           List Of Created Object
         </div>
         <i className="mt-1">
@@ -35,7 +33,7 @@ function ShapeTree() {
             <div className="arrow my-1 mr-2 cursor-pointer">
               <IoMdArrowDropright />
             </div>
-            <div className="font-poppins">My File 1</div>
+            <div className="font-roboto normal-roboto">My File 1</div>
           </div>
           <div className="wrap2 flex gap-3">
             <div className="eye-icon text-lg my-1 cursor-pointer">
