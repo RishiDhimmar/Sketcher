@@ -33,11 +33,7 @@ export class CircleClass {
 
 
   circleOnMouseMove(centerPoint, intersectionPoint, scene) {
-    // if (this.centerpoint && this.radius) {
-    //   this.centerpoint = null;
-    //   this.radius = null;
-    //   return;
-    // }
+
 
     const radius = centerPoint.distanceTo(intersectionPoint);
     if (!this.mesh) {

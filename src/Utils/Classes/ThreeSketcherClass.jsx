@@ -7,6 +7,7 @@ import { CircleClass } from "./CircleClass";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { PencilClass } from "./PencilClass";
 import { PolyLineClass } from "./PolyLine";
+import { EllipseClass } from "./EllipseClass";
 
 export class ThreeSketcherClass {
   constructor(canvas) {
@@ -23,6 +24,7 @@ export class ThreeSketcherClass {
     this.circle = new CircleClass();
     this.pencil = new PencilClass();
     this.polyLine = new PolyLineClass();
+    this.ellipse= new EllipseClass()
 
     this.line = new LineClass(); // Initializing LineClass instance
     this.points = []; // Store points for line
@@ -66,9 +68,18 @@ export class ThreeSketcherClass {
   addEventListeners() {
     window.addEventListener("mousemove", this.onMouseMove);
     this.canvas.addEventListener("click", this.onClick);
+    this.canvas.addEventListener("dblclick", this.onDoubleClick);
     window.addEventListener("resize", this.onResize);
   }
 
+  onDoubleClick = (e) => {
+    e.preventDefault();
+
+    this.isDrawing = false;
+    this.polyLine.stopDrawing(this.scene)
+  };
+
+  
   setUpControls() {
     this.controls = new OrbitControls(this.camera, this.canvas);
   }
@@ -85,7 +96,7 @@ export class ThreeSketcherClass {
       raycaster.setFromCamera(mouseVector, this.camera);
 
       const intersects = raycaster.intersectObject(this.plane.getMesh());
-      console.log("here");
+      // console.log("here");
 
       if (intersects.length > 0) {
         const newIntersection = intersects[0].point;
@@ -114,6 +125,13 @@ export class ThreeSketcherClass {
             break;
           case "polyLine":
             this.polyLine.polyLineMouseMove(
+              this.scene,
+              this.intersectionPoint,
+              newIntersection
+            );
+            break;
+          case "ellipse":
+            this.ellipse.ellipseOnMouseMove(
               this.scene,
               this.intersectionPoint,
               newIntersection
@@ -166,17 +184,17 @@ export class ThreeSketcherClass {
         case "pencil":
           if (!this.intersectionPoint) {
             this.pencil = new PencilClass();
-            console.log("new Polyline created");
+            console.log("new Pencil created");
           }
           if (
             this.pencil.pencilOnClick(
               this.scene,
               this.points,
-              this.intersectionPoint,
+              this.intersectionPoint
             )
           ) {
             // this.points = [];
-            this.intersectionPoint = null
+            this.intersectionPoint = null;
             this.isDrawing = false;
           }
           break;
@@ -185,17 +203,23 @@ export class ThreeSketcherClass {
             this.polyLine = new PolyLineClass();
             console.log("new Polyline created");
           }
-          if (
-            this.pencil.pencilOnClick(
-              this.scene,
-              this.points,
-              this.intersectionPoint,
-            )
-          ) {
-            // this.points = [];
-            this.intersectionPoint = null
-            this.isDrawing = false;
+
+          this.polyLine.polyLineOnClick(
+            this.scene,
+            this.intersectionPoint,
+            this.isDrawing
+          );
+          break;
+        case "ellipse":
+          if (!this.intersectionPoint) {
+            this.ellipse = new EllipseClass();
+            console.log("new Polyline created");
           }
+
+          this.ellipse.ellipseOnClick(
+            this.scene,
+            this.intersectionPoint,
+          );
           break;
       }
     }
