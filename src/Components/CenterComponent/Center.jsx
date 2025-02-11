@@ -5,27 +5,34 @@ import { MdOutlinePolyline } from "react-icons/md";
 import ShapeSelector from "../HelperComponents/ShapeSelector";
 import { FaRegSave } from "react-icons/fa";
 import { BsUpload } from "react-icons/bs";
-import * as THREE from 'three'
+import { SHAPES_INFO } from "../../Utils/Classes/Shape/ShapeInfo";
 
 
 function Center() {
+
+
   const shapes = [
-    { lable: "Line", icon: <TbLine /> },
-    { lable: "Circle", icon: <FaRegCircle /> },
-    { lable: "Ellipse", icon: <IoEllipseOutline /> },
-    { lable: "Polyline", icon: <MdOutlinePolyline /> },
+    { label: "Line", icon: <TbLine /> , link : SHAPES_INFO.LINE},
+    { label: "Circle", icon: <FaRegCircle /> , link : SHAPES_INFO.CIRCLE},
+    { label: "Ellipse", icon: <IoEllipseOutline /> , link : SHAPES_INFO.ELLIPSE},
+    { label: "Polyline", icon: <MdOutlinePolyline /> , link : SHAPES_INFO.POLYLINE},
   ];
 
   const functionalities = [
     {
-      lable: "Save",
+      label: "Save",
       icon: <FaRegSave />,
     },
     {
-      lable: "Upload",
+      label: "Upload",
       icon: <BsUpload />,
     }
   ]
+
+  const handleShapeClick = (shape) => {
+    console.log(shape)
+  }
+
 
 
 
@@ -34,15 +41,15 @@ function Center() {
       <div className="w-100 p-3 flex rounded-lg  justify-between">
         <div className="wrap classic-background flex justify-between items-center p-2 rounded-lg min-w-[330px] py-[6px] px-[12px] " >
         {shapes.map((shape) => (
-          <ShapeSelector key={shape.lable} icon={shape.icon} lable={shape.lable} />
+          <ShapeSelector key={shape.label} icon={shape.icon} label={shape.label} onClick={() => handleShapeClick(shape.link)}/>
         ))}
 
         </div>
         <div className="gap mx-3"></div>
         {functionalities.map((func) => (
-        <div key={func.lable} className="wrap classic-background flex justify-center items-center rounded-lg py-[6px] px-[12px] mx-1" >
+        <div key={func.label} className="wrap classic-background flex justify-center items-center rounded-lg py-[6px] px-[12px] mx-1" >
 
-          <ShapeSelector key={func.lable} icon={func.icon} lable={func.lable} />
+          <ShapeSelector key={func.label} icon={func.icon} label={func.label} />
           </div>
         ))}
       </div>

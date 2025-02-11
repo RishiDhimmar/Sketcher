@@ -48,7 +48,7 @@ export class LineClass extends ShapeClass {
       this.mp2 = null;
     } else {
       this.mp2 = intersectionPoint;
-      points.push(this.mp2);
+      // this.points.push(this.mp2);
     }
 
     if (this.mp1 && this.mp2) {
@@ -58,7 +58,7 @@ export class LineClass extends ShapeClass {
       this.mp1 = null;
       this.mp2 = null;
       this.mesh = null;
-      points = [];
+      // points = [];
       intersectionPoint = null;
       console.log("done")
       return true;

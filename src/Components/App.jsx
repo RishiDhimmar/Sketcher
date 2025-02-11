@@ -3,21 +3,24 @@ import Center from "./CenterComponent/Center";
 import ShapeInfo from "./ShapeInfoComponent/ShapeInfo";
 import "../Utils/main";
 import { useEffect, useRef } from "react";
-import { threeSetup } from "../Utils/threeSetup";
+import {ThreeSketcherClass} from "../Utils/Classes/ThreeSketcherClass"
+
+
 
 const App = () => {
-  const canvasRef = useRef(null);
+
+  const canvasRef = useRef(null)
 
   useEffect(() => {
-    if (canvasRef.current) {
-      threeSetup(canvasRef.current);
-    } else {
-      console.log("Canvas isn't rendered yet");
+    if(canvasRef.current){
+      const threeSketcher = new ThreeSketcherClass(canvasRef.current);
+      threeSketcher.updateRenderer();
     }
-
-    
-  }, []);
-
+    else {
+      console.log("not working")
+    }
+  })
+  
   
 
   return (

@@ -2,15 +2,17 @@ import * as THREE from "three";
 import Plane from "./Plane";
 import RedDot from "./RedDot";
 import { RaycasterUtils } from "./RaycasterUtils";
-import { LineClass } from "./LineClass";
-import { CircleClass } from "./CircleClass";
+import { LineClass } from "./Shape/LineClass";
+import { CircleClass } from "./Shape/CircleClass";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { PencilClass } from "./PencilClass";
-import { PolyLineClass } from "./PolyLine";
-import { EllipseClass } from "./EllipseClass";
-import { SHAPES_INFO } from "../Shape/ShapeInfo";
+import { PencilClass } from "./Shape/PencilClass";
+import { PolyLineClass } from "./Shape/PolyLine";
+import { EllipseClass } from "./Shape/EllipseClass";
+import { SHAPES_INFO } from "./Shape/ShapeInfo";
+
 
 export class ThreeSketcherClass {
+
   constructor(canvas) {
     this.canvas = canvas;
     this.scene = new THREE.Scene();
@@ -20,16 +22,24 @@ export class ThreeSketcherClass {
     this.redDot = new RedDot();
     this.mouse = { moux: null, mouy: null };
     this.isDrawing = false;
-    this.state = SHAPES_INFO.POLYLINE;
     this.entityStatus = false;
     this.intersectionPoint = null;
+    this.shape = SHAPES_INFO.LINE
+
 
     this.setupCamera();
     this.setupRenderer();
     this.addEventListeners();
     this.updateRenderer();
     this.setUpAxisHelpers();
-    // this.setUpControls()
+    this.setUpControls()
+  }
+
+  setShape(newShape) {
+    console.log(newShape)
+    this.shape = newShape;
+    this.entityStatus = false;
+    this.isDrawing= false;
   }
 
   setUpAxisHelpers() {
@@ -96,7 +106,7 @@ export class ThreeSketcherClass {
   }
 
   handleShapeUpdate(newIntersection) {
-    switch (this.state) {
+    switch (this.shape) {
       case SHAPES_INFO.LINE:
         this.line.lineMouseMove(
           this.scene,
@@ -147,7 +157,7 @@ export class ThreeSketcherClass {
   };
 
   initClass() {
-    switch (this.state) {
+    switch (this.shape) {
       case SHAPES_INFO.LINE:
         this.line = new LineClass();
         break;
@@ -177,13 +187,13 @@ export class ThreeSketcherClass {
     if (isShapeComplete) {
       this.entityStatus = false;
       this.isDrawing = false;
-      if (this.state === SHAPES_INFO.LINE) this.state = null;
+      if (this.shape === SHAPES_INFO.LINE) this.shape = null;
     }
   }
 
   
   updateShape() {
-    switch (this.state) {
+    switch (this.shape) {
       case SHAPES_INFO.LINE:
         return this.line.lineOnClick(
           this.scene,
