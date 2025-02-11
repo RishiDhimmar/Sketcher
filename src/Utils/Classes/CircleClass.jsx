@@ -1,12 +1,14 @@
-// import { ShapeClass } from "./ShapeClass";
+import { ShapeClass } from "./ShapeClass";
 import * as THREE from "three";
 
-export class CircleClass {
+export class CircleClass extends ShapeClass  {
   centerpoint;
   radius;
   mesh;
 
+
   constructor() {
+    super();
     this.centerpoint = null;
     this.radius = null;
     this.mesh = null;

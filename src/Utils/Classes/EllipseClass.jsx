@@ -1,12 +1,14 @@
 import * as THREE from "three";
+import { ShapeClass } from "./ShapeClass";
 
-export class EllipseClass {
+export class EllipseClass extends ShapeClass{
   centerPoint;
   radiusX;
   radiusY;
   mesh;
 
   constructor() {
+    super();
     this.centerPoint = null;
     this.radiusX = null;
     this.radiusY = null;
@@ -34,7 +36,6 @@ export class EllipseClass {
   }
 
   updateEllipse(radiusTempX, radiusTempY) {
-    console.log("update")
     if (!this.centerPoint) return;
 
     const curve = new THREE.EllipseCurve(0, 0, radiusTempX, radiusTempY);
@@ -54,7 +55,6 @@ export class EllipseClass {
 
 
     const radiusTemp = this.centerPoint.distanceTo(intersectionPoint);
-    console.log(radiusTemp);
     if(!this.mesh) {
       this.mesh = this.drawEllipse(
         centerPoint.x,
@@ -65,10 +65,8 @@ export class EllipseClass {
       );
     }
     if (!this.radiusX ) {
-      // If the ellipse doesn't exist yet, draw it with the calculated radius
       this.updateEllipse(radiusTemp, radiusTemp);
     } else if(!this.radiusY) {
-      // If the ellipse exists, update it with the new radius
       this.updateEllipse(this.radiusX, radiusTemp);
     }
   }
@@ -78,8 +76,11 @@ export class EllipseClass {
       this.centerPoint = intersectionPoint;
     } else if (!this.radiusX) {
       this.radiusX = intersectionPoint.distanceTo(this.centerPoint);
-    } else {
+    } else if(!this.radiusY) {
       this.radiusY = intersectionPoint.distanceTo(this.centerPoint);
-    }
+      return true
+    } 
+
+
   }
 }

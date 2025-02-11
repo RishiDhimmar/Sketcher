@@ -1,7 +1,9 @@
 import * as THREE from "three";
+import { ShapeClass } from "./ShapeClass";
 
-export class LineClass {
+export class LineClass extends ShapeClass {
   constructor() {
+    super();
     this.mp1;
     this.mp2;
     this.mesh = null;
@@ -58,10 +60,12 @@ export class LineClass {
       this.mesh = null;
       points = [];
       intersectionPoint = null;
+      console.log("done")
+      return true;
       // drawingLine = false;
     }
 
-    return true;
+    // return true;
   }
 
   getPoints() {

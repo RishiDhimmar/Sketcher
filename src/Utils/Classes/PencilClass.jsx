@@ -1,10 +1,15 @@
 import * as THREE from "three";
+import { ShapeClass } from "./ShapeClass";
 
-export class PencilClass {
+export class PencilClass extends ShapeClass{
   points = [];
   secondClick = false;
   mesh = null;
 
+  constructor()
+ {
+  super()
+ }
   drawPencil(points = this.points) {
     if (points.length == 0) {
       return;

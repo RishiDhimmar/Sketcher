@@ -1,7 +1,9 @@
 import * as THREE from "three";
+import { ShapeClass } from "./ShapeClass";
 
-export class PolyLineClass {
+export class PolyLineClass extends ShapeClass {
   constructor() {
+    super();
     this.points = [];
     this.mesh = null;
   }

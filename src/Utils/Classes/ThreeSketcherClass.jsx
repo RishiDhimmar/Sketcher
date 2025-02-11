@@ -8,6 +8,7 @@ import { OrbitControls } from "three/examples/jsm/Addons.js";
 import { PencilClass } from "./PencilClass";
 import { PolyLineClass } from "./PolyLine";
 import { EllipseClass } from "./EllipseClass";
+import { SHAPES_INFO } from "../Shape/ShapeInfo";
 
 export class ThreeSketcherClass {
   constructor(canvas) {
@@ -19,15 +20,8 @@ export class ThreeSketcherClass {
     this.redDot = new RedDot();
     this.mouse = { moux: null, mouy: null };
     this.isDrawing = false;
-    this.state = "polyLine";
-
-    this.circle = new CircleClass();
-    this.pencil = new PencilClass();
-    this.polyLine = new PolyLineClass();
-    this.ellipse= new EllipseClass()
-
-    this.line = new LineClass(); // Initializing LineClass instance
-    this.points = []; // Store points for line
+    this.state = SHAPES_INFO.POLYLINE;
+    this.entityStatus = false;
     this.intersectionPoint = null;
 
     this.setupCamera();
@@ -36,8 +30,6 @@ export class ThreeSketcherClass {
     this.updateRenderer();
     this.setUpAxisHelpers();
     // this.setUpControls()
-
-    // this.controls = new OrbitControls(this.camera, this.canvas);
   }
 
   setUpAxisHelpers() {
@@ -74,73 +66,153 @@ export class ThreeSketcherClass {
 
   onDoubleClick = (e) => {
     e.preventDefault();
-
     this.isDrawing = false;
-    this.polyLine.stopDrawing(this.scene)
+    this.entityStatus = false;
+    this.polyLine.stopDrawing(this.scene);
   };
 
-  
   setUpControls() {
     this.controls = new OrbitControls(this.camera, this.canvas);
   }
 
-  onMouseMove = (event) => {
+  updateMousePosition(event) {
     const rect = this.canvas.getBoundingClientRect();
     const mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     const mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     this.mouse = { moux: mouseX, mouy: mouseY };
+  }
+
+  getIntersectionPoint() {
+    const mouseVector = new THREE.Vector2(this.mouse.moux, this.mouse.mouy);
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouseVector, this.camera);
+
+    const intersects = raycaster.intersectObject(this.plane.getMesh());
+
+    if (intersects.length > 0) {
+      return intersects[0].point;
+    }
+    return null;
+  }
+
+  handleShapeUpdate(newIntersection) {
+    switch (this.state) {
+      case SHAPES_INFO.LINE:
+        this.line.lineMouseMove(
+          this.scene,
+          this.intersectionPoint,
+          newIntersection
+        );
+        break;
+      case SHAPES_INFO.CIRCLE:
+        this.circle.circleOnMouseMove(
+          this.intersectionPoint,
+          newIntersection,
+          this.scene
+        );
+        break;
+      case SHAPES_INFO.PENCIL:
+        this.pencil.pencilMouseMove(
+          this.scene,
+          this.intersectionPoint,
+          newIntersection
+        );
+        break;
+      case SHAPES_INFO.POLYLINE:
+        this.polyLine.polyLineMouseMove(
+          this.scene,
+          this.intersectionPoint,
+          newIntersection
+        );
+        break;
+      case SHAPES_INFO.ELLIPSE:
+        this.ellipse.ellipseOnMouseMove(
+          this.scene,
+          this.intersectionPoint,
+          newIntersection
+        );
+        break;
+    }
+  }
+
+  onMouseMove = (event) => {
+    this.updateMousePosition(event);
 
     if (this.isDrawing && this.intersectionPoint) {
-      const mouseVector = new THREE.Vector2(this.mouse.moux, this.mouse.mouy);
-      const raycaster = new THREE.Raycaster();
-      raycaster.setFromCamera(mouseVector, this.camera);
+      const newIntersection = this.getIntersectionPoint();
+      if (!newIntersection) return;
 
-      const intersects = raycaster.intersectObject(this.plane.getMesh());
-      // console.log("here");
-
-      if (intersects.length > 0) {
-        const newIntersection = intersects[0].point;
-
-        switch (this.state) {
-          case "line":
-            this.line.lineMouseMove(
-              this.scene,
-              this.intersectionPoint,
-              newIntersection
-            );
-            break;
-          case "circle":
-            this.circle.circleOnMouseMove(
-              this.intersectionPoint,
-              newIntersection,
-              this.scene
-            );
-            break;
-          case "pencil":
-            this.pencil.pencilMouseMove(
-              this.scene,
-              this.intersectionPoint,
-              newIntersection
-            );
-            break;
-          case "polyLine":
-            this.polyLine.polyLineMouseMove(
-              this.scene,
-              this.intersectionPoint,
-              newIntersection
-            );
-            break;
-          case "ellipse":
-            this.ellipse.ellipseOnMouseMove(
-              this.scene,
-              this.intersectionPoint,
-              newIntersection
-            );
-            break;
-        }
-      }
+      this.handleShapeUpdate(newIntersection);
     }
   };
+
+  initClass() {
+    switch (this.state) {
+      case SHAPES_INFO.LINE:
+        this.line = new LineClass();
+        break;
+      case SHAPES_INFO.CIRCLE:
+        this.circle = new CircleClass();
+        break;
+      case SHAPES_INFO.PENCIL:
+        this.pencil = new PencilClass();
+        break;
+      case SHAPES_INFO.POLYLINE:
+        this.polyLine = new PolyLineClass();
+        break;
+      case SHAPES_INFO.ELLIPSE:
+        this.ellipse = new EllipseClass();
+        break;
+    }
+  }
+
+
+  handleShapeCreation() {
+    if (!this.entityStatus) {
+      this.initClass();
+      this.entityStatus = true;
+    }
+
+    const isShapeComplete = this.updateShape();
+    if (isShapeComplete) {
+      this.entityStatus = false;
+      this.isDrawing = false;
+      if (this.state === SHAPES_INFO.LINE) this.state = null;
+    }
+  }
+
+  
+  updateShape() {
+    switch (this.state) {
+      case SHAPES_INFO.LINE:
+        return this.line.lineOnClick(
+          this.scene,
+          this.points,
+          this.intersectionPoint,
+          this.isDrawing
+        );
+      case SHAPES_INFO.CIRCLE:
+        return this.circle.circleOnClick(
+          this.intersectionPoint,
+          this.scene,
+          this.isDrawing
+        );
+      case SHAPES_INFO.PENCIL:
+        return this.pencil.pencilOnClick(
+          this.scene,
+          this.points,
+          this.intersectionPoint
+        );
+      case SHAPES_INFO.POLYLINE:
+        return this.polyLine.polyLineOnClick(
+          this.scene,
+          this.intersectionPoint,
+          this.isDrawing
+        );
+      case SHAPES_INFO.ELLIPSE:
+        return this.ellipse.ellipseOnClick(this.scene, this.intersectionPoint);
+    }
+  }
 
   onClick = () => {
     this.intersectionPoint = RaycasterUtils.handleClick(
@@ -151,78 +223,10 @@ export class ThreeSketcherClass {
       this.scene
     );
 
-    if (this.intersectionPoint) {
-      this.isDrawing = true;
+    if (!this.intersectionPoint) return;
+    this.isDrawing = true;
 
-      switch (this.state) {
-        case "line":
-          console.log("line");
-          this.line.lineOnClick(
-            this.scene,
-            this.points,
-            this.intersectionPoint,
-            this.isDrawing
-          );
-          this.points = [];
-          // this.isDrawing = false;
-          break;
-        case "circle":
-          if (!this.intersectionPoint) {
-            this.circle = new CircleClass();
-            console.log("new Circle created");
-          }
-          if (
-            this.circle.circleOnClick(
-              this.intersectionPoint,
-              this.scene,
-              this.isDrawing
-            )
-          ) {
-            this.isDrawing = false;
-          }
-          break;
-        case "pencil":
-          if (!this.intersectionPoint) {
-            this.pencil = new PencilClass();
-            console.log("new Pencil created");
-          }
-          if (
-            this.pencil.pencilOnClick(
-              this.scene,
-              this.points,
-              this.intersectionPoint
-            )
-          ) {
-            // this.points = [];
-            this.intersectionPoint = null;
-            this.isDrawing = false;
-          }
-          break;
-        case "polyLine":
-          if (!this.intersectionPoint) {
-            this.polyLine = new PolyLineClass();
-            console.log("new Polyline created");
-          }
-
-          this.polyLine.polyLineOnClick(
-            this.scene,
-            this.intersectionPoint,
-            this.isDrawing
-          );
-          break;
-        case "ellipse":
-          if (!this.intersectionPoint) {
-            this.ellipse = new EllipseClass();
-            console.log("new Polyline created");
-          }
-
-          this.ellipse.ellipseOnClick(
-            this.scene,
-            this.intersectionPoint,
-          );
-          break;
-      }
-    }
+    this.handleShapeCreation();
   };
 
   onResize = () => {
@@ -234,7 +238,6 @@ export class ThreeSketcherClass {
   };
 
   updateRenderer = () => {
-    // this.controls.update();
     this.renderer.render(this.scene, this.camera);
     window.requestAnimationFrame(this.updateRenderer);
   };
