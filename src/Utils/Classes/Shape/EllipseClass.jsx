@@ -7,14 +7,15 @@ export class EllipseClass extends ShapeClass{
   radiusY;
   mesh;
 
-  constructor() {
-    super();
+  constructor(name = "Ellipse", type = "ellipse", color = "red") {  
+    super(name  , type, color);
     this.centerPoint = null;
     this.radiusX = null;
     this.radiusY = null;
     this.mesh = null;
   }
 
+  // TODO : after one creation the drawing should stop
   drawEllipse(centerPointX, centerPointY, radiusX, radiusY, scene) {
     const curve = new THREE.EllipseCurve(0, 0, radiusX, radiusY);
 

@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
 
 export class LineClass extends ShapeClass {
-  constructor() {
-    super();
+  constructor(name = "Line", type = "line", color = "red") {
+    super(name, type, color);
     this.mp1;
     this.mp2;
     this.mesh = null;
@@ -42,6 +42,8 @@ export class LineClass extends ShapeClass {
     }
   }
 
+
+  // TODO : Has unexpected behavior when two lines are drawn with in-between clicking
   lineOnClick(scene, points, intersectionPoint) {
     if (!this.mp1) {
       this.mp1 = intersectionPoint;
@@ -55,9 +57,9 @@ export class LineClass extends ShapeClass {
       // const temp = this.drawLine(this.mp1, this.mp2);
       // scene.add(temp);
 
-      this.mp1 = null;
-      this.mp2 = null;
-      this.mesh = null;
+      // this.mp1 = null;
+      // this.mp2 = null;
+      // this.mesh = null;
       // points = [];
       intersectionPoint = null;
       console.log("done")

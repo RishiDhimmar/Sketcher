@@ -7,8 +7,8 @@ export class CircleClass extends ShapeClass  {
   mesh;
 
 
-  constructor() {
-    super();
+  constructor(name = "Circle", type = "circle", color = "red") {
+    super(name, type, color);
     this.centerpoint = null;
     this.radius = null;
     this.mesh = null;
@@ -55,9 +55,9 @@ export class CircleClass extends ShapeClass  {
     if (this.radius && this.centerpoint) {
       console.log("circle drawn");
       // this.scene?.add(this.mesh);
-      this.centerpoint = null;
-      this.radius = null;
-      this.mesh = null;
+      // this.centerpoint = null;
+      // this.radius = null;
+      // this.mesh = null;
       intersectionPoint = null;
       return true;
     }

@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
 
 export class PolyLineClass extends ShapeClass {
-  constructor() {
-    super();
+  constructor(name = "PolyLine", type = "polyLine", color = "red", ) {
+    super(name, type, color);
     this.points = [];
     this.mesh = null;
   }
@@ -48,7 +48,7 @@ export class PolyLineClass extends ShapeClass {
   }
   stopDrawing() {
     if (this.mesh) {
-      this.mesh = null;
+      // this.mesh = null;
       this.points = [];
     }
   }

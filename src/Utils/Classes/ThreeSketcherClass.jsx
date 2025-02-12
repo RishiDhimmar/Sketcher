@@ -9,13 +9,9 @@ import { PencilClass } from "./Shape/PencilClass";
 import { PolyLineClass } from "./Shape/PolyLine";
 import { EllipseClass } from "./Shape/EllipseClass";
 import { SHAPES_INFO } from "./Shape/ShapeInfo";
-import { observer } from "mobx-react";
 import shapeStore from "../../Stores/ShapeStore";
 
-
-// @observer
 export class ThreeSketcherClass {
-
   constructor(canvas) {
     this.canvas = canvas;
     this.scene = new THREE.Scene();
@@ -27,10 +23,9 @@ export class ThreeSketcherClass {
     this.isDrawing = false;
     this.entityStatus = false;
     this.intersectionPoint = null;
-    shapeStore.shape = SHAPES_INFO.LINE
+    shapeStore.shape = SHAPES_INFO.LINE;
     // shapeStore.shape = shapeStore.shape;
-    this.setShape(shapeStore.shape)
-
+    this.setShape(shapeStore.shape);
 
     this.setupCamera();
     this.setupRenderer();
@@ -41,10 +36,11 @@ export class ThreeSketcherClass {
   }
 
   setShape(newShape) {
-    console.log("newShape is ", newShape)
-    shapeStore.shape = newShape;
+    console.log("newShape is ", newShape);
+    shapeStore.setShape(newShape);
     this.entityStatus = false;
-    this.isDrawing= false;
+    this.isDrawing = false;
+
   }
 
   setUpAxisHelpers() {
@@ -84,6 +80,8 @@ export class ThreeSketcherClass {
     this.isDrawing = false;
     this.entityStatus = false;
     this.polyLine.stopDrawing(this.scene);
+    shapeStore.setShape(SHAPES_INFO.NULL);
+
   };
 
   setUpControls() {
@@ -111,7 +109,7 @@ export class ThreeSketcherClass {
   }
 
   handleShapeUpdate(newIntersection) {
-    console.log(shapeStore.shape)
+    // console.log(shapeStore.shape)
     switch (shapeStore.shape) {
       case SHAPES_INFO.LINE:
         this.line.lineMouseMove(
@@ -152,7 +150,6 @@ export class ThreeSketcherClass {
   }
 
   onMouseMove = (event) => {
-    // console.log(this.intersectionPoint)
     this.updateMousePosition(event);
 
     if (this.isDrawing && this.intersectionPoint) {
@@ -183,22 +180,23 @@ export class ThreeSketcherClass {
     }
   }
 
-
   handleShapeCreation() {
+    console.log(shapeStore.shape);
     if (!this.entityStatus) {
       this.initClass();
       this.entityStatus = true;
     }
 
     const isShapeComplete = this.updateShape();
+    // debugger
     if (isShapeComplete) {
       this.entityStatus = false;
       this.isDrawing = false;
-      if (shapeStore.shape === SHAPES_INFO.LINE) shapeStore.shape = null;
+      console.log("shape created");
+      shapeStore.setShape(SHAPES_INFO.NULL);
     }
   }
 
-  
   updateShape() {
     switch (shapeStore.shape) {
       case SHAPES_INFO.LINE:
@@ -240,9 +238,13 @@ export class ThreeSketcherClass {
       this.scene
     );
 
-    if (!this.intersectionPoint) return;
-    this.isDrawing = true;
+    console.log(shapeStore.shape);
 
+    if (!this.intersectionPoint) return;
+    if (shapeStore.shape === SHAPES_INFO.NULL) {
+      return;
+    }
+    this.isDrawing = true;
     this.handleShapeCreation();
   };
 

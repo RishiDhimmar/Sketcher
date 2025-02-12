@@ -6,9 +6,9 @@ export class PencilClass extends ShapeClass{
   secondClick = false;
   mesh = null;
 
-  constructor()
+  constructor(name = "Pencil", type = "pencil", color = "red")
  {
-  super()
+  super(name, type, color);
  }
   drawPencil(points = this.points) {
     if (points.length == 0) {
