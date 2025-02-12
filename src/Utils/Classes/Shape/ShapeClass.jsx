@@ -10,9 +10,7 @@ export class ShapeClass {
   static shapeMap = new Map()
 
   constructor( name = "null", type = "null", color = "null", opacity = 100) {
-    // if (!_id) {
-    //   throw new Error("Found null id for a Shape");
-    // }
+ 
     this._id = uniqid()
     this.name = name;
     this.type = type;
@@ -20,15 +18,15 @@ export class ShapeClass {
     this.opacity = opacity
 
     shapeStore.addShapeToMap(this)
-    // console.log(shapeStore.shapeMap)
     
   }
 
-  
-  
-
   getColor() {
     return this.color;
+  }
+
+  setColor(color) {
+    this.color = color;
   }
   getOpacity() {
     return this.opacity;

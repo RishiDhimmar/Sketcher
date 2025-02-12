@@ -10,6 +10,7 @@ import { PolyLineClass } from "./Shape/PolyLine";
 import { EllipseClass } from "./Shape/EllipseClass";
 import { SHAPES_INFO } from "./Shape/ShapeInfo";
 import shapeStore from "../../Stores/ShapeStore";
+import { reaction } from "mobx";
 
 export class ThreeSketcherClass {
   constructor(canvas) {
@@ -23,7 +24,7 @@ export class ThreeSketcherClass {
     this.isDrawing = false;
     this.entityStatus = false;
     this.intersectionPoint = null;
-    shapeStore.shape = SHAPES_INFO.NULL;
+    shapeStore.setShape(SHAPES_INFO.NULL);
     // shapeStore.shape = shapeStore.shape;
     this.setShape(shapeStore.shape);
 
@@ -33,6 +34,15 @@ export class ThreeSketcherClass {
     this.updateRenderer();
     this.setUpAxisHelpers();
     // this.setUpControls()
+
+    reaction(
+      () => shapeStore.deleteFlag, // Track deleteFlag
+      (deleteFlag) => {
+        if (deleteFlag) {
+          this.deleteShape();  // Trigger deleteShape whenever deleteFlag changes to true
+        }
+      }
+    );
   }
 
   setShape(newShape) {
@@ -42,6 +52,32 @@ export class ThreeSketcherClass {
 
   }
 
+  deleteShape() {
+    // Check if a shape is selected and a delete action is flagged
+    if (shapeStore.selectedShape && shapeStore.deleteFlag) {
+      const shapeToDelete = shapeStore.shapeMap.get(shapeStore.selectedShape);
+  
+      // Ensure the shape exists in the map
+      if (shapeToDelete && shapeToDelete.mesh) {
+        // Remove the shape's mesh from the scene
+        this.scene.remove(shapeToDelete.mesh);
+  
+        // Dispose of the geometry and material to release GPU memory
+        shapeToDelete.mesh.geometry.dispose();
+        shapeToDelete.mesh.material.dispose();
+  
+        // Remove the shape from the shapeMap
+        shapeStore.removeShapeFromMap(shapeToDelete);
+  
+        // Reset shape store flags
+        shapeStore.setDeleteFlag(false);
+        shapeStore.setSelectedShape(null);
+  
+      }
+    }
+  
+  
+  }
   setUpAxisHelpers() {
     const axesHelper = new THREE.AxesHelper(100);
     axesHelper.position.set(0, 0, 0);
@@ -96,10 +132,10 @@ export class ThreeSketcherClass {
 
   getIntersectionPoint() {
     const mouseVector = new THREE.Vector2(this.mouse.moux, this.mouse.mouy);
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouseVector, this.camera);
+    const rayCaster = new THREE.Raycaster();
+    rayCaster.setFromCamera(mouseVector, this.camera);
 
-    const intersects = raycaster.intersectObject(this.plane.getMesh());
+    const intersects = rayCaster.intersectObject(this.plane.getMesh());
 
     if (intersects.length > 0) {
       return intersects[0].point;
@@ -227,12 +263,14 @@ export class ThreeSketcherClass {
   }
 
   onClick = () => {
+    
     this.intersectionPoint = RaycasterUtils.handleClick(
       this.mouse,
       this.camera,
       this.plane.getMesh(),
       this.redDot,
-      this.scene
+      this.scene,
+      shapeStore.shape,
     );
 
 

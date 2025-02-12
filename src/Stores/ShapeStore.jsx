@@ -5,6 +5,7 @@ class ShapeStore {
   shape = SHAPES_INFO.NULL;
   selectedShape = null;
   shapeMap = new Map();
+  deleteFlag = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,6 +17,9 @@ class ShapeStore {
 
   setSelectedShape(shape) {
     this.selectedShape = shape;
+  }
+  setDeleteFlag(flag) {
+    this.deleteFlag = flag;
   }
 
   addShapeToMap(shape) {
