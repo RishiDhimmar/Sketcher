@@ -45,7 +45,7 @@ const Center = observer(() => {
       <div className="w-100 p-3 flex rounded-lg  justify-between">
         <div className="wrap classic-background flex justify-between items-center p-2 rounded-lg min-w-[330px] py-[6px] px-[12px] " >
         {shapes.map((shape) => (
-          <ShapeSelector key={shape.label} icon={shape.icon} label={shape.label} onClick={() => handleShapeClick(shape.link)}/>
+          <ShapeSelector key={shape.label} icon={shape.icon} label={shape.label} active={shape.link === shapeStore.shape} onClick={() => handleShapeClick(shape.link)}/>
         ))}
 
         </div>

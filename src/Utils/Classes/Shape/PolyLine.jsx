@@ -8,6 +8,7 @@ export class PolyLineClass extends ShapeClass {
     this.mesh = null;
   }
 
+
   drawPolyLine(points = this.points) {
     if (points.length === 0) {
       return null;
@@ -49,7 +50,7 @@ export class PolyLineClass extends ShapeClass {
   stopDrawing() {
     if (this.mesh) {
       // this.mesh = null;
-      this.points = [];
+      // this.points = [];
     }
   }
 }

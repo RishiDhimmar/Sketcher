@@ -47,7 +47,7 @@ export class PencilClass extends ShapeClass{
   pencilOnClick(scene, points, intersectionPoint) {
     if (this.secondClick) {
       // points = [];
-      console.log("second click");
+      // console.log("second click");
       this.secondClick = false;
       this.points = []
       this.mesh = null;

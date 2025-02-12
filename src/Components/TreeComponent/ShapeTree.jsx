@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+import { observer } from "mobx-react-lite"; // Import observer
 import { IoEllipseOutline, IoSearch } from "react-icons/io5";
 import { IoMdArrowDropright } from "react-icons/io";
 import { IoTrashOutline } from "react-icons/io5";
@@ -8,14 +8,18 @@ import "../../index.css";
 import TreeEntry from "../HelperComponents/TreeEntry";
 import { FaRegCircle } from "react-icons/fa";
 import { MdOutlinePolyline } from "react-icons/md";
+import shapeStore from "../../Stores/ShapeStore";
 
-function ShapeTree() {
-  const shapes = [
-    { name: "Line", icon: <TbLine /> },
-    { name: "Circle", icon: <FaRegCircle /> },
-    { name: "Ellipse", icon: <IoEllipseOutline /> },
-    { name: "Polyline", icon: <MdOutlinePolyline /> },
-  ];
+const ShapeTree = observer(() => {
+  const shapes = {
+    "line": <TbLine />,
+    "circle": <FaRegCircle />,
+    "ellipse": <IoEllipseOutline />,
+    "polyLine": <MdOutlinePolyline />,
+  };
+
+  const shapeData = shapeStore?.getShapeMap; 
+
   return (
     <div className="container-fluid ">
       <div className="label-wrap flex justify-between">
@@ -45,13 +49,20 @@ function ShapeTree() {
           </div>
         </div>
         <div className="shapes pl-5">
-          {shapes.map((shape) => {
-            return <TreeEntry key={shape.name} icon={shape.icon} name={shape.name} />;
+          {Array.from(shapeData?.entries()).map(([key, shape]) => {
+            return (
+              <TreeEntry
+                key={key}
+                icon={shapes[shape?.type]}
+                name={shape?.name}
+                shapeId={key}
+              />
+            );
           })}
         </div>
       </div>
     </div>
   );
-}
+});
 
 export default ShapeTree;

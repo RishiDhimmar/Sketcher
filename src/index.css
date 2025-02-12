@@ -4,9 +4,7 @@
     --font-roboto: "Roboto", sans-serif; 
     --font-poppins: "Poppins", serif;
   }
-*{
-    transition: all 0.1s ease-in-out;
-}
+
 .classic-background {
   background-color: #F4F4F4;
 }

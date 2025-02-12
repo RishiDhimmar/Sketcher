@@ -23,7 +23,7 @@ export class ThreeSketcherClass {
     this.isDrawing = false;
     this.entityStatus = false;
     this.intersectionPoint = null;
-    shapeStore.shape = SHAPES_INFO.LINE;
+    shapeStore.shape = SHAPES_INFO.NULL;
     // shapeStore.shape = shapeStore.shape;
     this.setShape(shapeStore.shape);
 
@@ -36,7 +36,6 @@ export class ThreeSketcherClass {
   }
 
   setShape(newShape) {
-    console.log("newShape is ", newShape);
     shapeStore.setShape(newShape);
     this.entityStatus = false;
     this.isDrawing = false;
@@ -181,7 +180,6 @@ export class ThreeSketcherClass {
   }
 
   handleShapeCreation() {
-    console.log(shapeStore.shape);
     if (!this.entityStatus) {
       this.initClass();
       this.entityStatus = true;
@@ -192,7 +190,6 @@ export class ThreeSketcherClass {
     if (isShapeComplete) {
       this.entityStatus = false;
       this.isDrawing = false;
-      console.log("shape created");
       shapeStore.setShape(SHAPES_INFO.NULL);
     }
   }
@@ -238,7 +235,6 @@ export class ThreeSketcherClass {
       this.scene
     );
 
-    console.log(shapeStore.shape);
 
     if (!this.intersectionPoint) return;
     if (shapeStore.shape === SHAPES_INFO.NULL) {

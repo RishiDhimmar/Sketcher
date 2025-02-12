@@ -62,7 +62,6 @@ export class LineClass extends ShapeClass {
       // this.mesh = null;
       // points = [];
       intersectionPoint = null;
-      console.log("done")
       return true;
       // drawingLine = false;
     }

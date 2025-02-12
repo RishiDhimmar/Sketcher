@@ -2,20 +2,36 @@ import { makeAutoObservable } from "mobx";
 import { SHAPES_INFO } from "../Utils/Classes/Shape/ShapeInfo";
 
 class ShapeStore {
-    shape = SHAPES_INFO.NULL
+  shape = SHAPES_INFO.NULL;
+  selectedShape = null;
+  shapeMap = new Map();
 
-    constructor() {
-        makeAutoObservable(this)
-    }
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-    setShape(shape) {
-        this.shape = shape
-    }
+  setShape(shape) {
+    this.shape = shape;
+  }
 
-    get getShape() {
-        return this.shape
-    }
+  setSelectedShape(shape) {
+    this.selectedShape = shape;
+  }
 
+  addShapeToMap(shape) {
+    this.shapeMap.set(shape._id, shape);
+  }
+
+  removeShapeFromMap(shape) {
+    this.shapeMap.delete(shape._id);
+  }
+
+  get getShape() {
+    return this.shape;
+  }
+  get getShapeMap() {
+    return this.shapeMap;
+  }
 }
 
 const shapeStore = new ShapeStore();

@@ -53,11 +53,6 @@ export class CircleClass extends ShapeClass  {
       this.radius = intersectionPoint.distanceTo(this.centerpoint);
     }
     if (this.radius && this.centerpoint) {
-      console.log("circle drawn");
-      // this.scene?.add(this.mesh);
-      // this.centerpoint = null;
-      // this.radius = null;
-      // this.mesh = null;
       intersectionPoint = null;
       return true;
     }

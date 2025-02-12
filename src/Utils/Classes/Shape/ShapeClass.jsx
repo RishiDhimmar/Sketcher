@@ -1,5 +1,5 @@
-import { Object3D } from "three";
 import uniqid from "uniqid"
+import shapeStore from "../../../Stores/ShapeStore";
 
 export class ShapeClass {
   _id = null;
@@ -19,20 +19,21 @@ export class ShapeClass {
     this.color = color;
     this.opacity = opacity
 
-    ShapeClass.setShapesData(this)
-    console.log(ShapeClass.getShapesData())
+    shapeStore.addShapeToMap(this)
+    // console.log(shapeStore.shapeMap)
     
   }
 
-  static setShapesData(shape) {
-    this.shapeMap.set(shape._id, shape)
-  }
-
-  static getShapesData() {
-    return this.shapeMap
-  }
+  
+  
 
   getColor() {
     return this.color;
+  }
+  getOpacity() {
+    return this.opacity;
+  }
+  setOpacity(opacity) {
+    this.opacity = opacity;
   }
 }
