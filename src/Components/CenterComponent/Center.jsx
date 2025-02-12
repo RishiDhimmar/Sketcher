@@ -6,9 +6,11 @@ import ShapeSelector from "../HelperComponents/ShapeSelector";
 import { FaRegSave } from "react-icons/fa";
 import { BsUpload } from "react-icons/bs";
 import { SHAPES_INFO } from "../../Utils/Classes/Shape/ShapeInfo";
+import { observer } from "mobx-react";
+import shapeStore from "../../Stores/ShapeStore";
 
 
-function Center() {
+const Center = observer(() => {
 
 
   const shapes = [
@@ -31,6 +33,8 @@ function Center() {
 
   const handleShapeClick = (shape) => {
     console.log(shape)
+    shapeStore.setShape(shape)
+
   }
 
 
@@ -55,6 +59,6 @@ function Center() {
       </div>
     </div>
   );
-}
+})
 
 export default Center;

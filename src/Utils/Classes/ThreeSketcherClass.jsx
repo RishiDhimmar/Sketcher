@@ -9,8 +9,11 @@ import { PencilClass } from "./Shape/PencilClass";
 import { PolyLineClass } from "./Shape/PolyLine";
 import { EllipseClass } from "./Shape/EllipseClass";
 import { SHAPES_INFO } from "./Shape/ShapeInfo";
+import { observer } from "mobx-react";
+import shapeStore from "../../Stores/ShapeStore";
 
 
+// @observer
 export class ThreeSketcherClass {
 
   constructor(canvas) {
@@ -24,7 +27,9 @@ export class ThreeSketcherClass {
     this.isDrawing = false;
     this.entityStatus = false;
     this.intersectionPoint = null;
-    this.shape = SHAPES_INFO.LINE
+    shapeStore.shape = SHAPES_INFO.LINE
+    // shapeStore.shape = shapeStore.shape;
+    this.setShape(shapeStore.shape)
 
 
     this.setupCamera();
@@ -32,12 +37,12 @@ export class ThreeSketcherClass {
     this.addEventListeners();
     this.updateRenderer();
     this.setUpAxisHelpers();
-    this.setUpControls()
+    // this.setUpControls()
   }
 
   setShape(newShape) {
-    console.log(newShape)
-    this.shape = newShape;
+    console.log("newShape is ", newShape)
+    shapeStore.shape = newShape;
     this.entityStatus = false;
     this.isDrawing= false;
   }
@@ -106,7 +111,8 @@ export class ThreeSketcherClass {
   }
 
   handleShapeUpdate(newIntersection) {
-    switch (this.shape) {
+    console.log(shapeStore.shape)
+    switch (shapeStore.shape) {
       case SHAPES_INFO.LINE:
         this.line.lineMouseMove(
           this.scene,
@@ -146,6 +152,7 @@ export class ThreeSketcherClass {
   }
 
   onMouseMove = (event) => {
+    // console.log(this.intersectionPoint)
     this.updateMousePosition(event);
 
     if (this.isDrawing && this.intersectionPoint) {
@@ -157,7 +164,7 @@ export class ThreeSketcherClass {
   };
 
   initClass() {
-    switch (this.shape) {
+    switch (shapeStore.shape) {
       case SHAPES_INFO.LINE:
         this.line = new LineClass();
         break;
@@ -187,13 +194,13 @@ export class ThreeSketcherClass {
     if (isShapeComplete) {
       this.entityStatus = false;
       this.isDrawing = false;
-      if (this.shape === SHAPES_INFO.LINE) this.shape = null;
+      if (shapeStore.shape === SHAPES_INFO.LINE) shapeStore.shape = null;
     }
   }
 
   
   updateShape() {
-    switch (this.shape) {
+    switch (shapeStore.shape) {
       case SHAPES_INFO.LINE:
         return this.line.lineOnClick(
           this.scene,

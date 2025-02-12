@@ -3,5 +3,6 @@ export const SHAPES_INFO = {
     CIRCLE : 'circle',
     ELLIPSE : 'ellipse',
     POLYLINE : 'polyline',
-    PENCIL : 'pencil'
+    PENCIL : 'pencil',
+    NULL : null,
 };
