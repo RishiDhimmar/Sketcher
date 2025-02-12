@@ -12,7 +12,7 @@ import PolylineInfoLayout from "./PolylineInfoLayout";
 const ShapeInfo = observer(() => {
 
   const selectedShape = shapeStore?.shapeMap?.get(shapeStore.selectedShape)
-  console.log(selectedShape)
+  console.log("selectedShape", selectedShape)
   
   return (
     <div className="container-fluid max-h-[90vh] overflow-auto pr-3">
@@ -24,11 +24,10 @@ const ShapeInfo = observer(() => {
 
       <div className="font-roboto">{selectedShape?.name}</div>
       <div className="line my-4 border-t border-gray-300"></div>
-      
-      {selectedShape?.type == 'line' ? <LineInfoLayout /> : null}
-      {selectedShape?.type == 'circle' ? <CircleInfoLayout /> : null}
-      {selectedShape?.type == 'ellipse' ? <EllipseInfoLayout /> : null}
-      {selectedShape?.type == 'polyLine' ? <PolylineInfoLayout /> : null}
+      {selectedShape?.type === 'line'  && <LineInfoLayout startPoint={selectedShape?.mp1} endPoint={selectedShape?.mp2}/> }
+      {selectedShape?.type === 'circle' && <CircleInfoLayout centerPoint={selectedShape?.centerpoint} radius={selectedShape?.radius}/> }
+      {selectedShape?.type === 'ellipse' && <EllipseInfoLayout centerPoint={selectedShape?.centerPoint} radiusX={selectedShape?.radiusX} radiusY={selectedShape?.radiusY}/> }
+      {selectedShape?.type === 'polyLine' && <PolylineInfoLayout points={selectedShape?.points}/> }
 
 
       <div className="button-cover">

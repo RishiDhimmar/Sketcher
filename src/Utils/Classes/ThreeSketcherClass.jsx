@@ -53,23 +53,17 @@ export class ThreeSketcherClass {
   }
 
   deleteShape() {
-    // Check if a shape is selected and a delete action is flagged
     if (shapeStore.selectedShape && shapeStore.deleteFlag) {
       const shapeToDelete = shapeStore.shapeMap.get(shapeStore.selectedShape);
   
-      // Ensure the shape exists in the map
       if (shapeToDelete && shapeToDelete.mesh) {
-        // Remove the shape's mesh from the scene
         this.scene.remove(shapeToDelete.mesh);
   
-        // Dispose of the geometry and material to release GPU memory
         shapeToDelete.mesh.geometry.dispose();
         shapeToDelete.mesh.material.dispose();
   
-        // Remove the shape from the shapeMap
         shapeStore.removeShapeFromMap(shapeToDelete);
   
-        // Reset shape store flags
         shapeStore.setDeleteFlag(false);
         shapeStore.setSelectedShape(null);
   

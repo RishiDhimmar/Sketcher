@@ -1,15 +1,16 @@
 import PointInput from '../HelperComponents/PointInput'
 import PositionInput from '../HelperComponents/PositionInput'
 
-function EllipseInfoLayout() {
+// eslint-disable-next-line react/prop-types
+function EllipseInfoLayout({centerPoint, radiusX, radiusY}) {
   return (
     <>
     <div className="position">
         <div className="label my-2 bold-roboto">Center</div>
-        <PointInput />
+        <PointInput value={centerPoint}/>
         <div className="label my-2 bold-roboto">Radius</div>
-        <PositionInput label={"R"} sub={"x"} />
-        <PositionInput label={"R"} sub={"y"} />
+        <PositionInput label={"R"} sub={"x"} value={radiusX}/>
+        <PositionInput label={"R"} sub={"y"} value={radiusY}/>
       </div>
     </>
   )

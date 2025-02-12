@@ -4,7 +4,7 @@ import * as THREE from "three";
 export class CircleClass extends ShapeClass  {
   centerpoint;
   radius;
-  mesh;
+  // mesh;
 
 
   constructor(name = "Circle", type = "circle", color = "red") {
@@ -35,8 +35,6 @@ export class CircleClass extends ShapeClass  {
 
 
   circleOnMouseMove(centerPoint, intersectionPoint, scene) {
-
-
     const radius = centerPoint.distanceTo(intersectionPoint);
     if (!this.mesh) {
       this.drawCircle(intersectionPoint, radius, "circle", "orange", scene);

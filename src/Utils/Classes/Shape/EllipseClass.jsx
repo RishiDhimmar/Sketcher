@@ -5,7 +5,7 @@ export class EllipseClass extends ShapeClass{
   centerPoint;
   radiusX;
   radiusY;
-  mesh;
+  // mesh;
 
   constructor(name = "Ellipse", type = "ellipse", color = "red") {  
     super(name  , type, color);

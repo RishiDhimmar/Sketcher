@@ -6,6 +6,7 @@ class ShapeStore {
   selectedShape = null;
   shapeMap = new Map();
   deleteFlag = false;
+  
 
   constructor() {
     makeAutoObservable(this);

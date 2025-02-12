@@ -32,13 +32,9 @@ const Center = observer(() => {
   ]
 
   const handleShapeClick = (shape) => {
-    console.log(shape)
     shapeStore.setShape(shape)
 
   }
-
-
-
 
   return (
     <div className="container w-100 absolute top-0 left-90">

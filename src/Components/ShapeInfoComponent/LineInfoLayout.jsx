@@ -1,14 +1,15 @@
 // import React from 'react'
 import PointInput from '../HelperComponents/PointInput'
 
-function LineInfoLayout() {
+// eslint-disable-next-line react/prop-types
+function LineInfoLayout({startPoint , endPoint}) {
   return (
     <>
     <div className="position">
         <div className="label my-2 bold-roboto">Starting Point</div>
-        <PointInput />
+        <PointInput value={startPoint}/>
         <div className="label my-2 bold-roboto">Ending Point</div>
-        <PointInput />
+        <PointInput value={endPoint}/>
       </div>
     
     

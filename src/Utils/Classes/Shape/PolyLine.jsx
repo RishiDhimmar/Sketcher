@@ -5,7 +5,7 @@ export class PolyLineClass extends ShapeClass {
   constructor(name = "PolyLine", type = "polyLine", color = "red", ) {
     super(name, type, color);
     this.points = [];
-    this.mesh = null;
+    // this.mesh = null;
   }
 
 
@@ -15,7 +15,7 @@ export class PolyLineClass extends ShapeClass {
     }
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.LineBasicMaterial({
-      color: "red",
+      color: this.color,
       linewidth: 1, // Consider using lineWidth, but note browser support
     });
     this.mesh = new THREE.Line(geometry, material);

@@ -6,7 +6,7 @@ export class LineClass extends ShapeClass {
     super(name, type, color);
     this.mp1;
     this.mp2;
-    this.mesh = null;
+    // this.mesh = null;
   }
 
   drawLine(ip1, ip2) {
