@@ -6,8 +6,6 @@ const PositionInput = ({ label, sub, value }) => {
   useEffect(() => {
     setValue(parseFloat(value).toFixed(15));
   },[value])
-
-
   const handleChange = (e) => {
     const newValue = parseFloat(e.target.value).toFixed(15); 
     setValue(newValue);

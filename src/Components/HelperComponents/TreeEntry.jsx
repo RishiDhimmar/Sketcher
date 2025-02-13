@@ -1,29 +1,30 @@
 import { IoTrashOutline } from "react-icons/io5";
-import { LuEye } from "react-icons/lu";
-import { LuEyeOff } from "react-icons/lu";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 import shapeStore from "../../Stores/ShapeStore";
 import { observer } from "mobx-react";
-import { useState } from "react";
-import { updateShapeOpacity } from "../../Utils/func";
+import { useEffect, useState } from "react";
+import { handleVisibilityChangeFunctionality } from "../../Utils/func";
 
 const TreeEntry = observer(({ icon, name, shapeId }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [visible, setVisible] = useState(true); 
+
+  const selectedShape = shapeStore.shapeMap.get(shapeId);
+
+  useEffect(() => {
+    if (selectedShape) {
+      setVisible(selectedShape?.mesh?.visible);
+    }
+  }, [shapeStore.updateFlag, selectedShape?.mesh?.visible]);
 
   const handleSelectedShape = () => {
     shapeStore.setSelectedShape(shapeId);
   };
 
-  const handleVisible = () => {
-    setIsVisible(!isVisible);
-
+  const handleVisibilityChange = () => {
+    const newVisibility = !visible; 
+    setVisible(newVisibility);
     const selectedShape = shapeStore.shapeMap.get(shapeId);
-
-    if (selectedShape) {
-      selectedShape.mesh.visible = !isVisible;
-      selectedShape.setOpacity(isVisible ? 0 : 100);
-      updateShapeOpacity(isVisible ? 0 : 100);
-      shapeStore.setUpdateFlag(!shapeStore.updateFlag);
-    }
+    handleVisibilityChangeFunctionality(selectedShape, newVisibility);
   };
 
   const handleDelete = () => {
@@ -47,9 +48,9 @@ const TreeEntry = observer(({ icon, name, shapeId }) => {
       <div className="wrap2 flex gap-3">
         <div
           className="eye-icon text-lg my-1 cursor-pointer"
-          onClick={handleVisible}
+          onClick={handleVisibilityChange}
         >
-          {isVisible ? <LuEye /> : <LuEyeOff />}
+          {visible ? <LuEye /> : <LuEyeOff />}
         </div>
         <div className="bin-icon my-1 cursor-pointer" onClick={handleDelete}>
           <IoTrashOutline />
