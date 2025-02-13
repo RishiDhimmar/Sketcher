@@ -3,9 +3,12 @@ import { ShapeClass } from "./ShapeClass";
 import shapeStore from "../../../Stores/ShapeStore";
 
 export class PolyLineClass extends ShapeClass {
+  static count = 0
   constructor(name = "PolyLine", type = "polyLine", color = "#ff0000", ) {
     super(name, type, color);
     this.points = [];
+    PolyLineClass.count++;
+    this.setName("Polyline " + PolyLineClass.count)
   }
 
 

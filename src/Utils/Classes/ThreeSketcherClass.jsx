@@ -19,7 +19,8 @@ export class ThreeSketcherClass {
     this.raycaster = new THREE.Raycaster();
     this.plane = new Plane();
     this.scene.add(this.plane.getMesh());
-    this.redDot = new RedDot();
+    this.redDot = new RedDot().create();
+    this.scene.add(this.redDot);
     this.mouse = { moux: null, mouy: null };
     this.isDrawing = false;
     this.entityStatus = false;
@@ -35,10 +36,10 @@ export class ThreeSketcherClass {
     // this.setUpControls();
 
     reaction(
-      () => shapeStore.deleteFlag, 
+      () => shapeStore.deleteFlag,
       (deleteFlag) => {
         if (deleteFlag) {
-          this.deleteShape(); 
+          this.deleteShape();
         }
       }
     );
@@ -48,28 +49,25 @@ export class ThreeSketcherClass {
     shapeStore.setShape(newShape);
     this.entityStatus = false;
     this.isDrawing = false;
-
   }
 
   deleteShape() {
     if (shapeStore.selectedShape && shapeStore.deleteFlag) {
       const shapeToDelete = shapeStore.shapeMap.get(shapeStore.selectedShape);
-  
+
       if (shapeToDelete && shapeToDelete.mesh) {
         this.scene.remove(shapeToDelete.mesh);
-  
+
         shapeToDelete.mesh.geometry.dispose();
         shapeToDelete.mesh.material.dispose();
-  
+
         shapeStore.removeShapeFromMap(shapeToDelete);
-  
+
         shapeStore.setDeleteFlag(false);
         shapeStore.setSelectedShape(null);
-  
       }
-    }  
+    }
   }
-  
 
   setUpAxisHelpers() {
     const axesHelper = new THREE.AxesHelper(100);
@@ -108,9 +106,8 @@ export class ThreeSketcherClass {
     this.isDrawing = false;
     this.entityStatus = false;
     this.polyLine.stopDrawing(this.scene);
-    
-    shapeStore.setShape(SHAPES_INFO.NULL);
 
+    shapeStore.setShape(SHAPES_INFO.NULL);
   };
 
   setUpControls() {
@@ -136,8 +133,6 @@ export class ThreeSketcherClass {
     }
     return null;
   }
-
-  
 
   handleShapeUpdate(newIntersection) {
     switch (shapeStore.shape) {
@@ -182,6 +177,14 @@ export class ThreeSketcherClass {
   onMouseMove = (event) => {
     this.updateMousePosition(event);
 
+    if (shapeStore.shape) {
+      this.redDot.visible = true
+      const mouseIntersection = this.getIntersectionPoint();
+      this.redDot.position.set(mouseIntersection.x, mouseIntersection.y, mouseIntersection.z)
+    } else {
+      this.redDot.visible = false;
+    }
+
     if (this.isDrawing && this.intersectionPoint) {
       const newIntersection = this.getIntersectionPoint();
       if (!newIntersection) return;
@@ -221,8 +224,8 @@ export class ThreeSketcherClass {
     if (isShapeComplete) {
       this.entityStatus = false;
       this.isDrawing = false;
-      console.log(isShapeComplete)
-      shapeStore.setSelectedShape(isShapeComplete)
+      console.log(isShapeComplete);
+      shapeStore.setSelectedShape(isShapeComplete);
       shapeStore.setShape(SHAPES_INFO.NULL);
     }
   }
@@ -255,24 +258,19 @@ export class ThreeSketcherClass {
           this.isDrawing
         );
       case SHAPES_INFO.ELLIPSE:
-        return this.ellipse.ellipseOnClick(
-          this.scene, 
-          this.intersectionPoint
-        );
+        return this.ellipse.ellipseOnClick(this.scene, this.intersectionPoint);
     }
   }
 
   onClick = () => {
-    
     this.intersectionPoint = RaycasterUtils.handleClick(
       this.mouse,
       this.camera,
       this.plane.getMesh(),
       this.redDot,
       this.scene,
-      shapeStore.shape,
+      shapeStore.shape
     );
-
 
     if (!this.intersectionPoint) return;
     if (shapeStore.shape === SHAPES_INFO.NULL) {

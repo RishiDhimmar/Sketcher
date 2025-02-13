@@ -2,11 +2,14 @@ import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
 
 export class LineClass extends ShapeClass {
+  static count = 0
   constructor(name = "Line", type = "line", color = "#ff0000") {
     super(name, type, color);
     this.mp1;
     this.mp2;
+    LineClass.count++;
     // this.mesh = null;
+    this.setName("Line " + LineClass.count)
   }
 
   drawLine(ip1, ip2) {

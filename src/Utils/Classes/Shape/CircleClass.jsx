@@ -2,6 +2,7 @@ import { ShapeClass } from "./ShapeClass";
 import * as THREE from "three";
 
 export class CircleClass extends ShapeClass  {
+  static count = 0;
   centerpoint;
   radius;
   // mesh;
@@ -12,6 +13,8 @@ export class CircleClass extends ShapeClass  {
     this.centerpoint = null;
     this.radius = null;
     this.mesh = null;
+    CircleClass.count++;
+    this.setName("Circle " + CircleClass.count)
   }
 
   drawCircle(centerpoint, radius, name, color, scene) {

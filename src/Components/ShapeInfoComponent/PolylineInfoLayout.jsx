@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-// import React from 'react'
 
 import { useEffect, useState } from "react";
 import PointInput from "../HelperComponents/PointInput";
@@ -32,7 +31,7 @@ function PolylineInfoLayout({ points }) {
               {index < points.length - 1 && (
                 <>
                   {" "}
-                  <div className="label my-2 bold-roboto">Point {index}</div>
+                  <div className="label my-2 bold-roboto">Point {index + 1}</div>
                   <PointInput value={point} points={points} setPoints={setPointsState} index={index} key={index} onChange={(newPoint) => handlePointsChange(newPoint, index)} />
                 </>
               )}

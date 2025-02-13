@@ -28,6 +28,13 @@ export class ShapeClass {
   setOpacity(opacity) {
     this.opacity = opacity;
   }
+  setName(name) {
+    this.name = name
+  }
+
+  getName() {
+    return this.name
+  }
 
   getColor() {
     return this.color;

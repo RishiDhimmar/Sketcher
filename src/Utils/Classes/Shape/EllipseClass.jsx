@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
 
 export class EllipseClass extends ShapeClass{
+  static count = 0;
   centerPoint;
   radiusX;
   radiusY;
@@ -13,6 +14,8 @@ export class EllipseClass extends ShapeClass{
     this.radiusX = null;
     this.radiusY = null;
     this.mesh = null;
+    EllipseClass.count++;
+    this.setName("Ellipse " + EllipseClass.count)
   }
 
   // TODO : after one creation the drawing should stop
