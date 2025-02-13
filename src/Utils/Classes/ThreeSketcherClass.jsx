@@ -32,6 +32,7 @@ export class ThreeSketcherClass {
     this.addEventListeners();
     this.updateRenderer();
     this.setUpAxisHelpers();
+    // this.setUpControls();
 
     reaction(
       () => shapeStore.deleteFlag, 

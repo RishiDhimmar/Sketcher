@@ -36,7 +36,7 @@ export class EllipseClass extends ShapeClass{
     return ellipse;
   }
 
-  updateEllipse(radiusTempX, radiusTempY) {
+  updateEllipse( radiusTempX, radiusTempY) {
     if (!this.centerPoint) return;
 
     const curve = new THREE.EllipseCurve(0, 0, radiusTempX, radiusTempY);
@@ -82,6 +82,16 @@ export class EllipseClass extends ShapeClass{
       return this._id
     } 
 
+  }
+  setCenterPoint(centerPoint) {
+    this.centerPoint = centerPoint;
+  }
 
+  setRadiusX(radiusX) {
+    this.radiusX = radiusX;
+  }
+
+  setRadiusY(radiusY) {
+    this.radiusY = radiusY;
   }
 }

@@ -18,6 +18,8 @@ const TreeEntry = observer(({ icon, name, shapeId }) => {
 
   const handleSelectedShape = () => {
     shapeStore.setSelectedShape(shapeId);
+    console.log("shapeId", shapeId);
+    shapeStore.setUpdateFlag(!shapeStore.updateFlag);
   };
 
   const handleVisibilityChange = () => {

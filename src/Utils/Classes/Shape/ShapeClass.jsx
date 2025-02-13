@@ -21,8 +21,6 @@ export class ShapeClass {
     this.opacity = opacity
     shapeStore.addShapeToMap(this)
   }
-
-  
   setColor(color) {
     this.color = color;
     console.log(this.mesh)

@@ -10,14 +10,14 @@ export class RaycasterUtils {
 
     if (intersects.length > 0) {
       const intersectionPoint = intersects[0].point;
-      if (shape) {
-        if (redDot && scene) {
-          const newRedDot = redDot.create(intersectionPoint);
-          scene.add(newRedDot);
-        } else {
-          console.error("redDot or scene is undefined");
-        }
-      }
+      // if (shape) {
+      //   if (redDot && scene) {
+      //     const newRedDot = redDot.create(intersectionPoint);
+      //     scene.add(newRedDot);
+      //   } else {
+      //     console.error("redDot or scene is undefined");
+      //   }
+      // }
 
       return intersectionPoint;
     }

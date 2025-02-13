@@ -32,6 +32,13 @@ export class PolyLineClass extends ShapeClass {
       this.mesh.geometry = geometry;
     }
   }
+  updatePolyLinePointChange() {
+    if (this.mesh && this.points.length > 0) {
+      const geometry = new THREE.BufferGeometry().setFromPoints(this.points);
+      this.mesh.geometry.dispose();
+      this.mesh.geometry = geometry;
+    }
+  }
 
   polyLineMouseMove(scene, intersectionPoint, newIntersection) {
     if (!this.mesh) {
@@ -49,7 +56,12 @@ export class PolyLineClass extends ShapeClass {
     this.points.push(intersectionPoint);
   }
   stopDrawing() {
+    const newPoints = this.points;
+    newPoints.pop()
+    this.updatePolyLine(newPoints)
     shapeStore.setSelectedShape(this._id)
-   
+  }
+  setPoints(points) {
+    this.points = points;
   }
 }

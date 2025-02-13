@@ -25,6 +25,7 @@ export class CircleClass extends ShapeClass  {
     return circle;
   }
 
+
   updateCircle(centerpoint, radius) {
     if (!centerpoint) return;
     const newGeometry = new THREE.CircleGeometry(radius, 50);
@@ -54,5 +55,13 @@ export class CircleClass extends ShapeClass  {
       intersectionPoint = null;
       return this._id;
     }
+  }
+
+  setCenterPoint(centerPoint) {
+    this.centerpoint = centerPoint;
+  }
+
+  setRadius(radius) {
+    this.radius = radius;
   }
 }

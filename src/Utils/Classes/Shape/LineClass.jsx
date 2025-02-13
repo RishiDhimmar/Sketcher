@@ -13,6 +13,7 @@ export class LineClass extends ShapeClass {
     if (!ip1 || !ip2) {
       return;
     }
+
     const geometry = new THREE.BufferGeometry().setFromPoints([ip1, ip2]);
     const material = new THREE.LineBasicMaterial({
       color: "#ff0000",
@@ -23,8 +24,26 @@ export class LineClass extends ShapeClass {
     return this.mesh;
   }
 
-  updateLine(newPoint) {
+  // updateLine(newPoint) {
+  //   const positions = this.mesh.geometry.attributes.position.array;
+  //   positions[3] = newPoint.x;
+  //   positions[4] = newPoint.y;
+  //   positions[5] = newPoint.z;
+
+  //   this.mesh.geometry.attributes.position.needsUpdate = true;
+  // }
+  updateLine(startPoint,newPoint) {
+
+    if (!startPoint || !newPoint) {
+      return;
+    }
+    this.mp1 = startPoint;
+    this.mp2 = newPoint
     const positions = this.mesh.geometry.attributes.position.array;
+    
+    positions[0] = startPoint.x;
+    positions[1] = startPoint.y;
+    positions[2] = startPoint.z;
     positions[3] = newPoint.x;
     positions[4] = newPoint.y;
     positions[5] = newPoint.z;
@@ -39,7 +58,7 @@ export class LineClass extends ShapeClass {
         scene.add(temp);
       }
     } else {
-      this.updateLine(newIntersection);
+      this.updateLine(intersectionPoint,newIntersection);
     }
   }
 
@@ -62,11 +81,20 @@ export class LineClass extends ShapeClass {
 
   }
 
+
   getPoints() {
     return [this.mp1, this.mp2];
   }
 
   getMesh() {
     return this.mesh;
+  }
+
+  setMp1(mp1) {
+    this.mp1 = mp1;
+  }
+
+  setMp2(mp2) {
+    this.mp2 = mp2;
   }
 }
