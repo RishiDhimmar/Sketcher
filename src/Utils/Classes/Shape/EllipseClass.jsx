@@ -7,7 +7,7 @@ export class EllipseClass extends ShapeClass{
   radiusY;
   // mesh;
 
-  constructor(name = "Ellipse", type = "ellipse", color = "red") {  
+  constructor(name = "Ellipse", type = "ellipse", color = "#ff0000") {  
     super(name  , type, color);
     this.centerPoint = null;
     this.radiusX = null;
@@ -23,7 +23,7 @@ export class EllipseClass extends ShapeClass{
 
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
-    const material = new THREE.LineBasicMaterial({ color: "red" });
+    const material = new THREE.LineBasicMaterial({ color: "#ff0000", transparent: true });
 
     const ellipse = new THREE.Line(geometry, material);
 
@@ -79,7 +79,7 @@ export class EllipseClass extends ShapeClass{
       this.radiusX = intersectionPoint.distanceTo(this.centerPoint);
     } else if(!this.radiusY) {
       this.radiusY = intersectionPoint.distanceTo(this.centerPoint);
-      return true
+      return this._id
     } 
 
 

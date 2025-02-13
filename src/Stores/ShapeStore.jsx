@@ -6,7 +6,7 @@ class ShapeStore {
   selectedShape = null;
   shapeMap = new Map();
   deleteFlag = false;
-  
+  updateFlag = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -14,6 +14,10 @@ class ShapeStore {
 
   setShape(shape) {
     this.shape = shape;
+  }
+
+  setUpdateFlag(flag) {
+    this.updateFlag = flag;
   }
 
   setSelectedShape(shape) {
@@ -29,6 +33,13 @@ class ShapeStore {
 
   removeShapeFromMap(shape) {
     this.shapeMap.delete(shape._id);
+  }
+
+  updateShapeColor(shapeId, newColor) {
+    const shape = this.shapeMap.get(shapeId);
+    if (shape) {
+      shape.setColor(newColor);
+    }
   }
 
   get getShape() {

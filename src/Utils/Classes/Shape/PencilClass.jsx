@@ -6,7 +6,7 @@ export class PencilClass extends ShapeClass{
   secondClick = false;
   mesh = null;
 
-  constructor(name = "Pencil", type = "pencil", color = "red")
+  constructor(name = "Pencil", type = "pencil", color = "#ff0000")
  {
   super(name, type, color);
  }
@@ -16,8 +16,9 @@ export class PencilClass extends ShapeClass{
     }
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.LineBasicMaterial({
-      color: "red",
+      color: "#ff0000",
       linewidth: 1,
+      transparent: true
     });
     this.mesh = new THREE.Line(geometry, material);
     return this.mesh;
@@ -52,7 +53,7 @@ export class PencilClass extends ShapeClass{
       this.points = []
       this.mesh = null;
       intersectionPoint = null
-      return true;
+      return this._id;
     }
 
     if (!this.secondClick) {

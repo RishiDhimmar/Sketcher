@@ -25,7 +25,6 @@ export class ThreeSketcherClass {
     this.entityStatus = false;
     this.intersectionPoint = null;
     shapeStore.setShape(SHAPES_INFO.NULL);
-    // shapeStore.shape = shapeStore.shape;
     this.setShape(shapeStore.shape);
 
     this.setupCamera();
@@ -33,13 +32,12 @@ export class ThreeSketcherClass {
     this.addEventListeners();
     this.updateRenderer();
     this.setUpAxisHelpers();
-    // this.setUpControls()
 
     reaction(
-      () => shapeStore.deleteFlag, // Track deleteFlag
+      () => shapeStore.deleteFlag, 
       (deleteFlag) => {
         if (deleteFlag) {
-          this.deleteShape();  // Trigger deleteShape whenever deleteFlag changes to true
+          this.deleteShape(); 
         }
       }
     );
@@ -68,10 +66,10 @@ export class ThreeSketcherClass {
         shapeStore.setSelectedShape(null);
   
       }
-    }
-  
-  
+    }  
   }
+  
+
   setUpAxisHelpers() {
     const axesHelper = new THREE.AxesHelper(100);
     axesHelper.position.set(0, 0, 0);
@@ -109,6 +107,7 @@ export class ThreeSketcherClass {
     this.isDrawing = false;
     this.entityStatus = false;
     this.polyLine.stopDrawing(this.scene);
+    
     shapeStore.setShape(SHAPES_INFO.NULL);
 
   };
@@ -137,8 +136,9 @@ export class ThreeSketcherClass {
     return null;
   }
 
+  
+
   handleShapeUpdate(newIntersection) {
-    // console.log(shapeStore.shape)
     switch (shapeStore.shape) {
       case SHAPES_INFO.LINE:
         this.line.lineMouseMove(
@@ -220,6 +220,8 @@ export class ThreeSketcherClass {
     if (isShapeComplete) {
       this.entityStatus = false;
       this.isDrawing = false;
+      console.log(isShapeComplete)
+      shapeStore.setSelectedShape(isShapeComplete)
       shapeStore.setShape(SHAPES_INFO.NULL);
     }
   }
@@ -252,7 +254,10 @@ export class ThreeSketcherClass {
           this.isDrawing
         );
       case SHAPES_INFO.ELLIPSE:
-        return this.ellipse.ellipseOnClick(this.scene, this.intersectionPoint);
+        return this.ellipse.ellipseOnClick(
+          this.scene, 
+          this.intersectionPoint
+        );
     }
   }
 

@@ -1,11 +1,11 @@
 import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
+import shapeStore from "../../../Stores/ShapeStore";
 
 export class PolyLineClass extends ShapeClass {
-  constructor(name = "PolyLine", type = "polyLine", color = "red", ) {
+  constructor(name = "PolyLine", type = "polyLine", color = "#ff0000", ) {
     super(name, type, color);
     this.points = [];
-    // this.mesh = null;
   }
 
 
@@ -16,7 +16,9 @@ export class PolyLineClass extends ShapeClass {
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.LineBasicMaterial({
       color: this.color,
-      linewidth: 1, // Consider using lineWidth, but note browser support
+      linewidth: 1, 
+      transparent: true
+
     });
     this.mesh = new THREE.Line(geometry, material);
     return this.mesh;
@@ -45,12 +47,9 @@ export class PolyLineClass extends ShapeClass {
 
   polyLineOnClick(scene, intersectionPoint) {
     this.points.push(intersectionPoint);
-
   }
   stopDrawing() {
-    if (this.mesh) {
-      // this.mesh = null;
-      // this.points = [];
-    }
+    shapeStore.setSelectedShape(this._id)
+   
   }
 }

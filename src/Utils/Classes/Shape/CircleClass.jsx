@@ -7,7 +7,7 @@ export class CircleClass extends ShapeClass  {
   // mesh;
 
 
-  constructor(name = "Circle", type = "circle", color = "red") {
+  constructor(name = "Circle", type = "circle", color = "#ff0000") {
     super(name, type, color);
     this.centerpoint = null;
     this.radius = null;
@@ -16,7 +16,7 @@ export class CircleClass extends ShapeClass  {
 
   drawCircle(centerpoint, radius, name, color, scene) {
     const geometry = new THREE.CircleGeometry(radius, 50);
-    const material = new THREE.MeshBasicMaterial({ color: color });
+    const material = new THREE.MeshBasicMaterial({ color: color, transparent: true });
     const circle = new THREE.Mesh(geometry, material);
     circle.position.set(centerpoint.x, centerpoint.y, centerpoint.z);
     circle.rotation.x = -Math.PI / 2;
@@ -37,7 +37,7 @@ export class CircleClass extends ShapeClass  {
   circleOnMouseMove(centerPoint, intersectionPoint, scene) {
     const radius = centerPoint.distanceTo(intersectionPoint);
     if (!this.mesh) {
-      this.drawCircle(intersectionPoint, radius, "circle", "orange", scene);
+      this.drawCircle(intersectionPoint, radius, "circle", "#ff0000", scene);
     } else {
       this.updateCircle(this.centerpoint, radius);
     }
@@ -52,7 +52,7 @@ export class CircleClass extends ShapeClass  {
     }
     if (this.radius && this.centerpoint) {
       intersectionPoint = null;
-      return true;
+      return this._id;
     }
   }
 }

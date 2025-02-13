@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
 
 export class LineClass extends ShapeClass {
-  constructor(name = "Line", type = "line", color = "red") {
+  constructor(name = "Line", type = "line", color = "#ff0000") {
     super(name, type, color);
     this.mp1;
     this.mp2;
@@ -15,8 +15,9 @@ export class LineClass extends ShapeClass {
     }
     const geometry = new THREE.BufferGeometry().setFromPoints([ip1, ip2]);
     const material = new THREE.LineBasicMaterial({
-      color: "red",
+      color: "#ff0000",
       linewidth: 1,
+      transparent: true
     });
     this.mesh = new THREE.Line(geometry, material);
     return this.mesh;
@@ -54,19 +55,11 @@ export class LineClass extends ShapeClass {
     }
 
     if (this.mp1 && this.mp2) {
-      // const temp = this.drawLine(this.mp1, this.mp2);
-      // scene.add(temp);
 
-      // this.mp1 = null;
-      // this.mp2 = null;
-      // this.mesh = null;
-      // points = [];
       intersectionPoint = null;
-      return true;
-      // drawingLine = false;
+      return this._id;
     }
 
-    // return true;
   }
 
   getPoints() {
