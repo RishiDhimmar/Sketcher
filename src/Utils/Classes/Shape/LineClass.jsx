@@ -1,15 +1,18 @@
 import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
+import { Line2 } from 'three/addons/lines/Line2.js';
+import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
+import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 
 export class LineClass extends ShapeClass {
-  static count = 0
+  static count = 0;
+
   constructor(name = "Line", type = "line", color = "#ff0000") {
     super(name, type, color);
-    this.mp1;
-    this.mp2;
+    this.mp1 = null;
+    this.mp2 = null;
     LineClass.count++;
-    // this.mesh = null;
-    this.setName("Line " + LineClass.count)
+    this.setName("Line " + LineClass.count);
   }
 
   drawLine(ip1, ip2) {
@@ -17,39 +20,33 @@ export class LineClass extends ShapeClass {
       return;
     }
 
-    const geometry = new THREE.BufferGeometry().setFromPoints([ip1, ip2]);
-    const material = new THREE.LineBasicMaterial({
-      color: "#ff0000",
-      linewidth: 1,
-      transparent: true
+    const geometry = new LineGeometry();
+    geometry.setPositions([ip1.x, ip1.y, ip1.z, ip2.x, ip2.y, ip2.z]);
+
+    const material = new LineMaterial({
+      color: this.color,
+      linewidth: 4, // Adjust as needed
+      transparent: true,
     });
-    this.mesh = new THREE.Line(geometry, material);
+
+    this.mesh = new Line2(geometry, material);
+    this.mesh.computeLineDistances(); // Required for some shader effects
+    this.setId();
     return this.mesh;
   }
 
-  // updateLine(newPoint) {
-  //   const positions = this.mesh.geometry.attributes.position.array;
-  //   positions[3] = newPoint.x;
-  //   positions[4] = newPoint.y;
-  //   positions[5] = newPoint.z;
-
-  //   this.mesh.geometry.attributes.position.needsUpdate = true;
-  // }
-  updateLine(startPoint,newPoint) {
-
+  updateLine(startPoint, newPoint) {
     if (!startPoint || !newPoint) {
       return;
     }
+
     this.mp1 = startPoint;
-    this.mp2 = newPoint
-    const positions = this.mesh.geometry.attributes.position.array;
-    
-    positions[0] = startPoint.x;
-    positions[1] = startPoint.y;
-    positions[2] = startPoint.z;
-    positions[3] = newPoint.x;
-    positions[4] = newPoint.y;
-    positions[5] = newPoint.z;
+    this.mp2 = newPoint;
+
+    this.mesh.geometry.setPositions([
+      startPoint.x, startPoint.y, startPoint.z,
+      newPoint.x, newPoint.y, newPoint.z,
+    ]);
 
     this.mesh.geometry.attributes.position.needsUpdate = true;
   }
@@ -61,29 +58,23 @@ export class LineClass extends ShapeClass {
         scene.add(temp);
       }
     } else {
-      this.updateLine(intersectionPoint,newIntersection);
+      this.updateLine(intersectionPoint, newIntersection);
     }
   }
 
-
-  // TODO : Has unexpected behavior when two lines are drawn with in-between clicking
   lineOnClick(scene, points, intersectionPoint) {
     if (!this.mp1) {
       this.mp1 = intersectionPoint;
       this.mp2 = null;
     } else {
       this.mp2 = intersectionPoint;
-      // this.points.push(this.mp2);
     }
 
     if (this.mp1 && this.mp2) {
-
       intersectionPoint = null;
       return this._id;
     }
-
   }
-
 
   getPoints() {
     return [this.mp1, this.mp2];

@@ -33,7 +33,7 @@ const App = () => {
         <div className="center text-center w-full p-2 rounded m-1 absolute">
           <Center />
         </div>
-        <div className="right classic-background w-[400px] p-5 rounded m-1 absolute top-0 right-0">
+        <div className="right classic-background w-[400px]  rounded m-1 absolute top-0 right-0 flex items-center justify-center">
           <ShapeInfo />
         </div>
         </div>

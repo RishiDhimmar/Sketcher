@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import Plane from "./Plane";
 import RedDot from "./RedDot";
-import { RaycasterUtils } from "./RaycasterUtils";
+import { RaycasterUtils } from "./RayCasterUtils";
 import { LineClass } from "./Shape/LineClass";
 import { CircleClass } from "./Shape/CircleClass";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
@@ -32,7 +32,7 @@ export class ThreeSketcherClass {
     this.setupRenderer();
     this.addEventListeners();
     this.updateRenderer();
-    this.setUpAxisHelpers();
+    // this.setUpAxisHelpers();
     // this.setUpControls();
 
     reaction(
@@ -103,11 +103,16 @@ export class ThreeSketcherClass {
 
   onDoubleClick = (e) => {
     e.preventDefault();
-    this.isDrawing = false;
-    this.entityStatus = false;
-    this.polyLine.stopDrawing(this.scene);
+    console.log(this.isDrawing, this.entityStatus);
+    if (this.isDrawing && this.entityStatus) {
+      {
+        this.polyLine.stopDrawing(this.scene);
+      }
+      this.isDrawing = false;
+      this.entityStatus = false;
 
-    shapeStore.setShape(SHAPES_INFO.NULL);
+      shapeStore.setShape(SHAPES_INFO.NULL);
+    }
   };
 
   setUpControls() {
@@ -127,6 +132,8 @@ export class ThreeSketcherClass {
     rayCaster.setFromCamera(mouseVector, this.camera);
 
     const intersects = rayCaster.intersectObject(this.plane.getMesh());
+
+    // console.log(intersects)
 
     if (intersects.length > 0) {
       return intersects[0].point;
@@ -177,13 +184,17 @@ export class ThreeSketcherClass {
   onMouseMove = (event) => {
     this.updateMousePosition(event);
 
-    if (shapeStore.shape) {
-      this.redDot.visible = true
-      const mouseIntersection = this.getIntersectionPoint();
-      this.redDot.position.set(mouseIntersection.x, mouseIntersection.y, mouseIntersection.z)
-    } else {
-      this.redDot.visible = false;
-    }
+    // if (shapeStore.shape) {
+    // this.redDot.visible = true
+    const mouseIntersection = this.getIntersectionPoint();
+    this.redDot.position.set(
+      mouseIntersection.x,
+      mouseIntersection.y,
+      mouseIntersection.z
+    );
+    // } else {
+    // this.redDot.visible = false;
+    // }
 
     if (this.isDrawing && this.intersectionPoint) {
       const newIntersection = this.getIntersectionPoint();
@@ -225,6 +236,7 @@ export class ThreeSketcherClass {
       this.entityStatus = false;
       this.isDrawing = false;
       console.log(isShapeComplete);
+      console.log("shape Completed")
       shapeStore.setSelectedShape(isShapeComplete);
       shapeStore.setShape(SHAPES_INFO.NULL);
     }
@@ -252,11 +264,12 @@ export class ThreeSketcherClass {
           this.intersectionPoint
         );
       case SHAPES_INFO.POLYLINE:
-        return this.polyLine.polyLineOnClick(
+        this.polyLine.polyLineOnClick(
           this.scene,
           this.intersectionPoint,
           this.isDrawing
         );
+        break;
       case SHAPES_INFO.ELLIPSE:
         return this.ellipse.ellipseOnClick(this.scene, this.intersectionPoint);
     }

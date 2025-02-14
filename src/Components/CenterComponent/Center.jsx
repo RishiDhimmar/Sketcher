@@ -31,7 +31,13 @@ const Center = observer(() => {
     },
   ];
   const handleShapeClick = (shape) => {
-    shapeStore.setShape(shape);
+    console.log(shape);
+    if (shapeStore.shape === shape) {
+      console.log("same same");
+      shapeStore.setShape(SHAPES_INFO.NULL);
+    } else {
+      shapeStore.setShape(shape);
+    }
   };
 
   return (

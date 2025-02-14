@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { handleVisibilityChangeFunctionality } from "../../Utils/func";
 
 const TreeEntry = observer(({ icon, name, shapeId }) => {
-  const [visible, setVisible] = useState(true); 
+  const [visible, setVisible] = useState(true);
 
   const selectedShape = shapeStore.shapeMap.get(shapeId);
 
@@ -17,13 +17,17 @@ const TreeEntry = observer(({ icon, name, shapeId }) => {
   }, [shapeStore.updateFlag, selectedShape?.mesh?.visible]);
 
   const handleSelectedShape = () => {
-    shapeStore.setSelectedShape(shapeId);
-    console.log("shapeId", shapeId);
+    if (shapeStore.selectedShape === shapeId) {
+      shapeStore.setSelectedShape(null);
+    } else {
+      shapeStore.setSelectedShape(shapeId);
+      console.log("shapeId", shapeId);
+    }
     shapeStore.setUpdateFlag(!shapeStore.updateFlag);
   };
 
   const handleVisibilityChange = () => {
-    const newVisibility = !visible; 
+    const newVisibility = !visible;
     setVisible(newVisibility);
     const selectedShape = shapeStore.shapeMap.get(shapeId);
     handleVisibilityChangeFunctionality(selectedShape, newVisibility);

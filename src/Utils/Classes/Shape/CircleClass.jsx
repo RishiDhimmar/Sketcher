@@ -24,6 +24,7 @@ export class CircleClass extends ShapeClass  {
     circle.position.set(centerpoint.x, centerpoint.y, centerpoint.z);
     circle.rotation.x = -Math.PI / 2;
     this.mesh = circle;
+    this.setId()
     scene.add(this.mesh);
     return circle;
   }

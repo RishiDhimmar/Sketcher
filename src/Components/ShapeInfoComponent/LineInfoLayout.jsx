@@ -27,7 +27,7 @@ function LineInfoLayout({startPoint , endPoint}) {
   }
   return (
     <>
-    <div className="position">
+    <div className="position ">
         <div className="label my-2 bold-roboto">Starting Point</div>
         <PointInput value={startPointState} onChange={onStartStateChange} />
         <div className="label my-2 bold-roboto">Ending Point</div>

@@ -29,10 +29,14 @@ export class EllipseClass extends ShapeClass{
     const material = new THREE.LineBasicMaterial({ color: "#ff0000", transparent: true });
 
     const ellipse = new THREE.Line(geometry, material);
-
+    
     ellipse.position.set(centerPointX, centerPointY, 0);
     
     ellipse.rotateX(-Math.PI / 2);
+    
+    this.mesh = ellipse;
+
+    this.setId()
     
     scene.add(ellipse);
 
