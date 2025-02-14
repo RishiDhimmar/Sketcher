@@ -41,6 +41,16 @@ class ShapeStore {
       shape.setColor(newColor);
     }
   }
+  reset() {
+    this.shape = SHAPES_INFO.NULL;
+  this.selectedShape = null;
+  this.shapeMap = new Map();
+  this.deleteFlag = false;
+  this.updateFlag = false;
+  }
+  setShapeMap(newShapeMap) {
+    this.shapeMap = newShapeMap
+  }
 
   get getShape() {
     return this.shape;

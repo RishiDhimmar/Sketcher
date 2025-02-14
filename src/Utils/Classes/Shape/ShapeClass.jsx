@@ -1,6 +1,4 @@
-import uniqid from "uniqid"
 import shapeStore from "../../../Stores/ShapeStore";
-import { get } from "mobx";
 // import * as THREE from "three";
 
 export class ShapeClass {
@@ -37,10 +35,10 @@ export class ShapeClass {
     this._id = this.mesh.uuid;
     ShapeClass.meshes.push(this.mesh)
 
-    // this.shapeMap.set(this._id, this)
     shapeStore.addShapeToMap(this)
-    console.log(shapeStore.getShapeMap)
   }
+
+ 
 
   getName() {
     return this.name

@@ -8,8 +8,8 @@ export class EllipseClass extends ShapeClass{
   radiusY;
   // mesh;
 
-  constructor(name = "Ellipse", type = "ellipse", color = "#ff0000") {  
-    super(name  , type, color);
+  constructor(name = "Ellipse", type = "ellipse", color = "#ff0000", opacity = 100) {
+    super(name  , type, color, opacity);
     this.centerPoint = null;
     this.radiusX = null;
     this.radiusY = null;
@@ -19,18 +19,18 @@ export class EllipseClass extends ShapeClass{
   }
 
   // TODO : after one creation the drawing should stop
-  drawEllipse(centerPointX, centerPointY, radiusX, radiusY, scene) {
+  drawEllipse(centerPointX, centerPointZ, radiusX, radiusY, scene) {
     const curve = new THREE.EllipseCurve(0, 0, radiusX, radiusY);
 
     const points = curve.getPoints(50);
 
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
-    const material = new THREE.LineBasicMaterial({ color: "#ff0000", transparent: true });
+    const material = new THREE.LineBasicMaterial({ color: "#ff0000", transparent: true, opacity: this.opacity });
 
     const ellipse = new THREE.Line(geometry, material);
     
-    ellipse.position.set(centerPointX, centerPointY, 0);
+    ellipse.position.set(centerPointX, 0 , centerPointZ);
     
     ellipse.rotateX(-Math.PI / 2);
     
@@ -43,10 +43,10 @@ export class EllipseClass extends ShapeClass{
     return ellipse;
   }
 
-  updateEllipse( radiusTempX, radiusTempY) {
+  updateEllipse(  radiusTempX, radiusTempY) {
     if (!this.centerPoint) return;
 
-    const curve = new THREE.EllipseCurve(0, 0, radiusTempX, radiusTempY);
+    const curve = new THREE.EllipseCurve(0,0, radiusTempX, radiusTempY);
 
     const points = curve.getPoints(50);
 
@@ -56,7 +56,7 @@ export class EllipseClass extends ShapeClass{
 
     this.mesh.geometry = newGeometry;
 
-    this.mesh.position.set(this.centerPoint.x, this.centerPoint.y, this.centerPoint.z);
+    this.mesh.position.set(this.centerPoint.x, 0, this.centerPoint.z);
   }
 
   ellipseOnMouseMove(scene, centerPoint, intersectionPoint) {
@@ -66,7 +66,7 @@ export class EllipseClass extends ShapeClass{
     if(!this.mesh) {
       this.mesh = this.drawEllipse(
         centerPoint.x,
-        centerPoint.y,
+        centerPoint.z,
         radiusTemp,
         radiusTemp,
         scene

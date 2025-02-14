@@ -4,7 +4,9 @@
     --font-roboto: "Roboto", sans-serif; 
     --font-poppins: "Poppins", serif;
   }
-
+*{
+  transition-duration: 100ms;
+}
 .classic-background {
   background-color: #F4F4F4;
 }
@@ -17,4 +19,7 @@
 }
 .bold-roboto {
   font-weight: 500;
+}
+.icon-con{
+  transition-duration: 0ms;
 }

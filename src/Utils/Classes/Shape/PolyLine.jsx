@@ -8,14 +8,14 @@ import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 export class PolyLineClass extends ShapeClass {
   static count = 0;
 
-  constructor(name = "PolyLine", type = "polyLine", color = "#ff0000") {
-    super(name, type, color);
+  constructor(name = "PolyLine", type = "polyLine", color = "#ff0000", opacity = 100) {
+    super(name, type, color, opacity);
     this.points = []; // Store as THREE.Vector3 objects
     PolyLineClass.count++;
     this.setName("Polyline " + PolyLineClass.count);
   }
 
-  drawPolyLine(points = this.points) {
+  drawPolyLine(points = this.points, scene) {
     if (points.length === 0) {
       return null;
     }
@@ -33,11 +33,13 @@ export class PolyLineClass extends ShapeClass {
       color: this.color,
       linewidth: 4,
       transparent: true,
+      opacity: this.opacity
     });
 
     this.mesh = new Line2(geometry, material);
     this.mesh.computeLineDistances(); // Required for some shader effects
     this.setId();
+    scene.add(this.mesh)
     return this.mesh;
   }
 
@@ -86,7 +88,7 @@ export class PolyLineClass extends ShapeClass {
     
     if (!this.mesh) {
       this.points.push(new THREE.Vector3(newIntersection.x, newIntersection.y, newIntersection.z));
-      const temp = this.drawPolyLine(this.points);
+      const temp = this.drawPolyLine(this.points,scene);
       if (temp) {
         scene.add(temp);
       }
@@ -109,7 +111,7 @@ export class PolyLineClass extends ShapeClass {
       console.log(this.points)
       this.points.pop(); 
       // this.updatePolyLinePointChange(); // Update the geometry
-      shapeStore.setSelectedShape(this._id);
+      shapeStore.setSelectedShape(this.mesh.uuid);
     }
   }
 

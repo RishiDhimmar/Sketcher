@@ -8,6 +8,7 @@ import { BsUpload } from "react-icons/bs";
 import { SHAPES_INFO } from "../../Utils/Classes/Shape/ShapeInfo";
 import { observer } from "mobx-react";
 import shapeStore from "../../Stores/ShapeStore";
+import { handleFileUpload } from "../../Utils/func";
 
 const Center = observer(() => {
   const shapes = [
@@ -40,6 +41,42 @@ const Center = observer(() => {
     }
   };
 
+  const handleSave = () => {
+    const fileData = [];
+
+    shapeStore.shapeMap.data_.forEach((element) => {
+      const { mesh, ...shapeWithoutMesh } = element.value_;
+      fileData.push(shapeWithoutMesh);
+    });
+
+    const jsonString = JSON.stringify(fileData, null, 2);
+
+    const blob = new Blob([jsonString], { type: "application/json" });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "shapes.json";
+    link.click();
+  };
+
+  const handleUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = JSON.parse(reader.result);
+        handleFileUpload(data);
+
+        // console.log(data);
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  };
+
   return (
     <div className="container w-100 absolute top-0 left-90">
       <div className="w-100 p-3 flex rounded-lg  justify-between">
@@ -64,6 +101,7 @@ const Center = observer(() => {
               key={func.label}
               icon={func.icon}
               label={func.label}
+              onClick={func.label == "Save" ? handleSave : handleUpload}
             />
           </div>
         ))}

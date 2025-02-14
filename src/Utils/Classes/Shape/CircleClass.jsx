@@ -8,8 +8,8 @@ export class CircleClass extends ShapeClass  {
   // mesh;
 
 
-  constructor(name = "Circle", type = "circle", color = "#ff0000") {
-    super(name, type, color);
+  constructor(name = "Circle", type = "circle", color = "#ff0000", opacity = 100) {
+    super(name, type, color, opacity);
     this.centerpoint = null;
     this.radius = null;
     this.mesh = null;
@@ -19,11 +19,12 @@ export class CircleClass extends ShapeClass  {
 
   drawCircle(centerpoint, radius, name, color, scene) {
     const geometry = new THREE.CircleGeometry(radius, 50);
-    const material = new THREE.MeshBasicMaterial({ color: color, transparent: true });
+    const material = new THREE.MeshBasicMaterial({ color: this.color, transparent: true, opacity: this.opacity });
     const circle = new THREE.Mesh(geometry, material);
     circle.position.set(centerpoint.x, centerpoint.y, centerpoint.z);
     circle.rotation.x = -Math.PI / 2;
     this.mesh = circle;
+    this
     this.setId()
     scene.add(this.mesh);
     return circle;

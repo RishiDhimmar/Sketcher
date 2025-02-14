@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import { ShapeClass } from "./ShapeClass";
 import { Line2 } from 'three/addons/lines/Line2.js';
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
@@ -7,15 +6,15 @@ import { LineGeometry } from 'three/addons/lines/LineGeometry.js';
 export class LineClass extends ShapeClass {
   static count = 0;
 
-  constructor(name = "Line", type = "line", color = "#ff0000") {
-    super(name, type, color);
+  constructor(name = "Line", type = "line", color = "#ff0000", opacity = 100) {
+    super(name, type, color, opacity);
     this.mp1 = null;
     this.mp2 = null;
     LineClass.count++;
     this.setName("Line " + LineClass.count);
   }
 
-  drawLine(ip1, ip2) {
+  drawLine(ip1, ip2,scene) {
     if (!ip1 || !ip2) {
       return;
     }
@@ -25,13 +24,15 @@ export class LineClass extends ShapeClass {
 
     const material = new LineMaterial({
       color: this.color,
-      linewidth: 4, // Adjust as needed
+      linewidth: 4, 
       transparent: true,
+      opacity : this.opacity,
     });
 
     this.mesh = new Line2(geometry, material);
-    this.mesh.computeLineDistances(); // Required for some shader effects
+    this.mesh.computeLineDistances(); 
     this.setId();
+    scene.add(this.mesh);
     return this.mesh;
   }
 
@@ -53,7 +54,7 @@ export class LineClass extends ShapeClass {
 
   lineMouseMove(scene, intersectionPoint, newIntersection) {
     if (!this.mesh) {
-      const temp = this.drawLine(this.mp1, newIntersection);
+      const temp = this.drawLine(this.mp1, newIntersection, scene);
       if (temp) {
         scene.add(temp);
       }
