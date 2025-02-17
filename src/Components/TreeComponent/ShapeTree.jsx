@@ -11,6 +11,8 @@ import { MdOutlinePolyline } from "react-icons/md";
 import shapeStore from "../../Stores/ShapeStore";
 import { useState } from "react";
 import { handleVisibilityChangeFunctionality } from "../../Utils/func";
+import { TbOvalVertical } from "react-icons/tb";
+
 
 const ShapeTree = observer(() => {
   const [fileVisibility, setFileVisibility] = useState(true);
@@ -18,7 +20,7 @@ const ShapeTree = observer(() => {
   const shapes = {
     "line": <TbLine />,
     "circle": <FaRegCircle />,
-    "ellipse": <IoEllipseOutline />,
+    "ellipse": <TbOvalVertical />,
     "polyLine": <MdOutlinePolyline />,
   };
 

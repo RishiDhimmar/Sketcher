@@ -195,7 +195,7 @@ export class ThreeSketcherClass {
     if(!mouseIntersection) return
     this.redDot.position.set(
       mouseIntersection.x,
-      mouseIntersection.y,
+      0.01,
       mouseIntersection.z
     );
     } else {

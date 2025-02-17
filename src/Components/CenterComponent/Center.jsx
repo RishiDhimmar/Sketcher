@@ -9,12 +9,14 @@ import { SHAPES_INFO } from "../../Utils/Classes/Shape/ShapeInfo";
 import { observer } from "mobx-react";
 import shapeStore from "../../Stores/ShapeStore";
 import { handleFileUpload } from "../../Utils/func";
+import { TbOvalVertical } from "react-icons/tb";
+
 
 const Center = observer(() => {
   const shapes = [
     { label: "Line", icon: <TbLine />, link: SHAPES_INFO.LINE },
     { label: "Circle", icon: <FaRegCircle />, link: SHAPES_INFO.CIRCLE },
-    { label: "Ellipse", icon: <IoEllipseOutline />, link: SHAPES_INFO.ELLIPSE },
+    { label: "Ellipse", icon: <TbOvalVertical />, link: SHAPES_INFO.ELLIPSE },
     {
       label: "Polyline",
       icon: <MdOutlinePolyline />,
