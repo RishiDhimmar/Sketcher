@@ -32,7 +32,7 @@ export class ThreeSketcherClass {
     this.setupRenderer();
     this.addEventListeners();
     this.updateRenderer();
-    this.setUpAxisHelpers();
+    // this.setUpAxisHelpers();
     this.setUpControls();
 
     reaction(
