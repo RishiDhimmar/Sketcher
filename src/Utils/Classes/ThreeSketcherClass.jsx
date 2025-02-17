@@ -72,8 +72,8 @@ export class ThreeSketcherClass {
   }
 
   setUpAxisHelpers() {
-    const axesHelper = new THREE.AxesHelper(100);
-    axesHelper.position.set(0, 0, 0);
+    const axesHelper = new THREE.AxesHelper(5);
+    axesHelper.position.set(0,0,0);
     ThreeSketcherClass.scene.add(axesHelper);
   }
 

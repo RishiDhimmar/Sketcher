@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 export default class Plane {
   constructor() {
-    const planeGeometry = new THREE.PlaneGeometry(100, 100);
+    const planeGeometry = new THREE.PlaneGeometry(1000, 1000);
     const planeMaterial = new THREE.MeshBasicMaterial({ color: 'white' });
     this.mesh = new THREE.Mesh(planeGeometry, planeMaterial);
     this.mesh.name = "Plane"

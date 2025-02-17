@@ -137,6 +137,7 @@ const ShapeInfo = observer(() => {
               value={shapeOpacity}
               onChange={handleOpacityChange}
             />
+            %
           </div>
 
           <div className="btn-line my-3"></div>

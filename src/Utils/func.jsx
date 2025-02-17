@@ -123,6 +123,7 @@ export const handleFileUpload = (data) => {
       case SHAPES_INFO.POLYLINE:
         console.log(temp);
         tempShape = new PolyLineClass(temp.name, temp.type, temp.color, temp.opacity);
+        temp.points.pop()
         tempShape.setPoints(temp.points);
         tempShape.drawPolyLine(temp.points, scene);
 
