@@ -36,7 +36,9 @@ export const handleVisibilityChangeFunctionality = (
 ) => {
   if (selectedShape) {
     selectedShape.mesh.visible = isVisible;
-    console.log(selectedShape.mesh);
+    // shapeStore.setSelectedShape(selectedShape._id);
+    console.log(shapeStore.selectedShape);
+    
     shapeStore.setUpdateFlag(!shapeStore.updateFlag);
   }
 };
