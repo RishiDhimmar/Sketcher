@@ -27,7 +27,7 @@ const App = () => {
     <>
       <div className="container-fluid h-full relative m-0 p-0">
         <div className="flex gap-3 ">
-        <div className="left classic-background w-[330px] px-5 py-4 rounded-lg m-1 border border-1 border-[#0000000D] pb-5 absolute top-0 left-0 pb-3 mt-4">
+        <div className="left  classic-background w-[330px] px-5 py-4 rounded-lg m-1 border border-1 border-[#0000000D] pb-5 absolute top-0 left-0 pb-3 mt-4">
           <ShapeTree />
         </div>
         <div className="center text-center w-full p-2 rounded m-1 absolute">

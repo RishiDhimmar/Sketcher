@@ -20,7 +20,7 @@ export class LineClass extends ShapeClass {
     }
 
     const geometry = new LineGeometry();
-    geometry.setPositions([ip1.x, ip1.y, ip1.z, ip2.x, ip2.y, ip2.z]);
+    geometry.setPositions([ip1.x, 0.1, ip1.z, ip2.x, 0.1, ip2.z]);
 
     const material = new LineMaterial({
       color: this.color,
@@ -45,8 +45,8 @@ export class LineClass extends ShapeClass {
     this.mp2 = newPoint;
 
     this.mesh.geometry.setPositions([
-      startPoint.x, startPoint.y, startPoint.z,
-      newPoint.x, newPoint.y, newPoint.z,
+      startPoint.x, 0.1, startPoint.z,
+      newPoint.x, 0.1, newPoint.z,
     ]);
 
     this.mesh.geometry.attributes.position.needsUpdate = true;

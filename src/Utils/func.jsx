@@ -80,17 +80,17 @@ export const handlePolyLineChangeFunctionality = (points) => {
 
 export const handleFileUpload = (data) => {
   const scene = ThreeSketcherClass.scene;
-  ShapeClass?.meshes?.map((shape) => {
-    scene.remove(shape);
-  });
+  // ShapeClass?.meshes?.map((shape) => {
+  //   scene.remove(shape);
+  // });
   
-  ShapeClass.meshes = [];
-  LineClass.count = 0;
-  CircleClass.count = 0;
-  EllipseClass.count = 0;
-  PolyLineClass.count = 0;
+  // ShapeClass.meshes = [];
+  // LineClass.count = 0;
+  // CircleClass.count = 0;
+  // EllipseClass.count = 0;
+  // PolyLineClass.count = 0;
   
-  shapeStore.reset();
+  // shapeStore.reset();
   console.log(data)
 
   let tempShape = null;

@@ -21,7 +21,7 @@ export class CircleClass extends ShapeClass  {
     const geometry = new THREE.CircleGeometry(radius, 50);
     const material = new THREE.MeshBasicMaterial({ color: this.color, transparent: true, opacity: this.opacity });
     const circle = new THREE.Mesh(geometry, material);
-    circle.position.set(centerpoint.x, centerpoint.y, centerpoint.z);
+    circle.position.set(centerpoint.x, 0.1, centerpoint.z);
     circle.rotation.x = -Math.PI / 2;
     this.mesh = circle;
     this
@@ -36,7 +36,7 @@ export class CircleClass extends ShapeClass  {
     const newGeometry = new THREE.CircleGeometry(radius, 50);
     this.mesh.geometry.dispose();
     this.mesh.geometry = newGeometry;
-    this.mesh.position.set(centerpoint.x, centerpoint.y, centerpoint.z);
+    this.mesh.position.set(centerpoint.x, 0.1, centerpoint.z);
   }
 
 

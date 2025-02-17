@@ -56,7 +56,7 @@ export class EllipseClass extends ShapeClass{
 
     this.mesh.geometry = newGeometry;
 
-    this.mesh.position.set(this.centerPoint.x, 0, this.centerPoint.z);
+    this.mesh.position.set(this.centerPoint.x, 0.1, this.centerPoint.z);
   }
 
   ellipseOnMouseMove(scene, centerPoint, intersectionPoint) {

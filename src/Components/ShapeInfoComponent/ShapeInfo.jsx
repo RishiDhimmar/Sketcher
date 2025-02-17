@@ -26,9 +26,10 @@ const ShapeInfo = observer(() => {
     if (selectedShape) {
       setShapeColor(selectedShape.color);
       setShapeOpacity(selectedShape.opacity);
+      setVisible(selectedShape.mesh.visible);
     }
     console.log("selectedShape", selectedShape);
-  }, [selectedShape]);
+  }, [selectedShape, shapeStore.updateFlag]);
   function hexToRgb(hex) {
     // Remove the "#" if it exists
     hex = hex.replace("#", "");
@@ -38,7 +39,7 @@ const ShapeInfo = observer(() => {
     let g = parseInt(hex.substring(2, 4), 16);
     let b = parseInt(hex.substring(4, 6), 16);
   
-    return `rgb(${r}, ${g}, ${b})`;
+    return `RGB (${r}, ${g}, ${b})`;
   }
   
 

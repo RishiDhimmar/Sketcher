@@ -23,7 +23,7 @@ export class PolyLineClass extends ShapeClass {
     // Convert THREE.Vector3 points to a flat array
     const positions = [];
     points.forEach(point => {
-      positions.push(point.x, point.y, point.z);
+      positions.push(point.x, 0.1, point.z);
     });
 
     const geometry = new LineGeometry();
@@ -47,13 +47,13 @@ export class PolyLineClass extends ShapeClass {
     if (this.mesh && this.points.length > 0) {
       // Update the last point
 
-      const tempPoint = new THREE.Vector3(newPoint.x, newPoint.y, newPoint.z);
+      const tempPoint = new THREE.Vector3(newPoint.x, 0.1, newPoint.z);
       this.points[this.points.length - 1] = tempPoint;
      
       // Convert THREE.Vector3 points to a flat array
       const positions = [];
       this.points.forEach(point => {
-        positions.push(point.x, point.y, point.z);
+        positions.push(point.x, 0.1, point.z);
       });
 
       const geometry = new LineGeometry();
@@ -70,7 +70,7 @@ export class PolyLineClass extends ShapeClass {
       // Convert THREE.Vector3 points to a flat array
       const positions = [];
       this.points.forEach(point => {
-        positions.push(point.x, point.y, point.z);
+        positions.push(point.x, 0.1, point.z);
       });
 
       // Update the existing geometry
@@ -87,7 +87,7 @@ export class PolyLineClass extends ShapeClass {
     }
     
     if (!this.mesh) {
-      this.points.push(new THREE.Vector3(newIntersection.x, newIntersection.y, newIntersection.z));
+      this.points.push(new THREE.Vector3(newIntersection.x, 0.1, newIntersection.z));
       const temp = this.drawPolyLine(this.points,scene);
       if (temp) {
         scene.add(temp);

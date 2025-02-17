@@ -189,7 +189,7 @@ export class ThreeSketcherClass {
   onMouseMove = (event) => {
     this.updateMousePosition(event);
 
-    if (shapeStore.shape || shapeStore.selectedShape) {
+    if ((shapeStore.shape)) {
     this.redDot.visible = true
     const mouseIntersection = this.getIntersectionPoint();
     if(!mouseIntersection) return
@@ -311,8 +311,5 @@ export class ThreeSketcherClass {
     this.renderer.render(ThreeSketcherClass.scene, this.camera);
     window.requestAnimationFrame(this.updateRenderer);
   };
-
-
-
   
 }
