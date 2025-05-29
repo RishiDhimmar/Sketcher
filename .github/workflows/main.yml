@@ -60,6 +60,6 @@ jobs:
 
             # Unzip the dist archive
             tar -xzf dist.tar.gz
-
+ 
             # Restart the web server
             sudo systemctl restart nginx
