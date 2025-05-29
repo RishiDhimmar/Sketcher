@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { SHAPES_INFO } from "../Utils/Classes/Shape/ShapeInfo";
-
+ 
 class ShapeStore {
   shape = SHAPES_INFO.NULL;
   selectedShape = null;
