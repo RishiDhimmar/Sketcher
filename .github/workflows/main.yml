@@ -28,7 +28,7 @@ jobs:
       # dist app
       - name: dist app
         run: |
-          npm run staging
+          npm run build
 
       # Zip the dist output
       - name: Zip dist output
