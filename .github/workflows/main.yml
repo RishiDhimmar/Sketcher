@@ -1,1 +1,65 @@
+name: Login to EC2
 
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # dist app
+      - name: dist app
+        run: |
+          npm run staging
+
+      # Zip the dist output
+      - name: Zip dist output
+        run: |
+          tar -czf dist.tar.gz dist
+
+      # Upload the zipped dist to EC2
+      - name: Upload dist to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          source: "dist.tar.gz"
+          target: "/var/www/resolute/"
+
+      # SSH into EC2 and configure the dist
+      - name: Set up and verify deployment on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            # Navigate to the deployment directory
+            cd /var/www/resolute
+
+            # Unzip the dist archive
+            tar -xzf dist.tar.gz
+
+            # Restart the web server
+            sudo systemctl restart nginx
